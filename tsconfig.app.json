@@ -9,6 +9,7 @@
       "@/*": ["./src/*"]
     },
     "noEmit": true,
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "noImplicitAny": false
   }
 }

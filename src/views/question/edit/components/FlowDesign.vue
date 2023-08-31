@@ -1,5 +1,5 @@
 <template>
-  <router-view></router-view>
+  <div>流程设计</div>
 </template>
 
 <script setup lang="ts"></script>

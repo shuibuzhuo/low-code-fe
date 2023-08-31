@@ -1,5 +1,5 @@
 <template>
-  <router-view></router-view>
+  <div>高级配置</div>
 </template>
 
 <script setup lang="ts"></script>

@@ -1,5 +1,5 @@
 <template>
-  <router-view></router-view>
+  <div>表单设计</div>
 </template>
 
 <script setup lang="ts"></script>
