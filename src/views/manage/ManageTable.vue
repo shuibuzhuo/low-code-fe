@@ -1,8 +1,5 @@
 <template>
   <div class="list">
-    <div class="btn-wrapper">
-      <a-button type="primary" @click="create">新增</a-button>
-    </div>
     <div class="table-wrapper">
       <a-table :dataSource="list" :columns="columns" />
     </div>
@@ -11,12 +8,9 @@
 
 <script setup lang="tsx">
 import { ref, onMounted } from "vue";
-import { getQuestionListService, createQuestionService } from "@/api/question";
+import { getQuestionListService } from "@/api/question";
 import { LIST_PAGE_SIZE } from "@/constant/index";
 import { query } from "@/utils/util";
-import { useRouter } from "vue-router";
-
-const router = useRouter();
 
 const list = ref([]);
 const page = ref(1);
@@ -58,11 +52,7 @@ async function getQuestionList() {
   total.value = t;
 }
 
-// 新增
-async function create() {
-  const res = await createQuestionService();
-  router.push(`/question/edit/${res.id}`);
-}
+
 
 onMounted(() => {
   getQuestionList();
@@ -70,9 +60,5 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-.btn-wrapper {
-  padding: 15px 30px;
-  display: flex;
-  justify-content: flex-end;
-}
+
 </style>

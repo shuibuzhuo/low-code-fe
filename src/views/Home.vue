@@ -1,6 +1,6 @@
 <template>
   <main>
-    <a-button type="primary" size="large" @click="goList">去列表</a-button>
+    <a-button type="primary" size="large" @click="goManage">去列表</a-button>
   </main>
 </template>
 
@@ -9,7 +9,7 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
-function goList() {
-  router.push("/manage/list");
+function goManage() {
+  router.push("/manage/main");
 }
 </script>

@@ -10,25 +10,14 @@ const router = createRouter({
       component: Home,
     },
     {
-      path: "/manage",
-      name: "Manage",
-      children: [
-        {
-          path: "list",
-          name: "ManageList",
-          component: () => import("@/views/manage/List.vue"),
-        },
-      ],
+      path: "/manage/main",
+      name: "ManageMain",
+      component: () => import("@/views/manage/ManageMain.vue"),
     },
     {
-      path: "/question",
-      name: "Question",
-      children: [
-        {
-          path: "edit/:id",
-          component: () => import("@/views/question/edit/index.vue"),
-        },
-      ],
+      path: "/question/edit/:id",
+      name: "QuestionEdit",
+      component: () => import("@/views/question/edit/index.vue"),
     },
   ],
 });

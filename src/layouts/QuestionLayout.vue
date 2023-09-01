@@ -1,5 +1,7 @@
 <template>
-  <div>表单设计</div>
+  <div class="question-layout-wrapper">
+    <slot></slot>
+  </div>
 </template>
 
 <script setup lang="ts"></script>
