@@ -2,19 +2,19 @@ import request, { type ResDataType } from "@/utils/request.ts";
 import type { SearchOption } from "./types";
 
 // 获取（查询）问卷列表
-export function getQuestionListService(
+export function getFlowListService(
   opt: Partial<SearchOption> = {}
 ): Promise<ResDataType> {
   return request({
-    url: "/question",
+    url: "/flow",
     params: opt,
   });
 }
 
 // 创建问卷
-export function createQuestionService(): Promise<ResDataType> {
+export function createFlowService(): Promise<ResDataType> {
   return request({
-    url: "/question",
+    url: "/flow",
     method: "post",
   });
 }

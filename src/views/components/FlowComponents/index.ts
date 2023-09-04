@@ -1,8 +1,18 @@
-import FlowInputConfig from "./Basic/FlowInput";
-import FlowDescConfig from "./Layout/FlowDesc";
+import type { DefineComponent } from "vue";
+import FlowInputConfig, { type FlowInputPropsType } from "./Basic/FlowInput";
+import FlowDescConfig, { type FlowDescPropsType } from "./Layout/FlowDesc";
 
 // 组件的配置列表
 export const componentConfigList = [FlowInputConfig, FlowDescConfig];
+
+export type ComponentPropsType = FlowInputPropsType & FlowDescPropsType;
+
+export type ComponentConfigType = {
+  title: string;
+  type: string;
+  PropComponent: DefineComponent<ComponentPropsType>;
+  Component: DefineComponent<ComponentPropsType>;
+};
 
 // 组件按照组区分的配置列表
 export const componentConfigGroup = [

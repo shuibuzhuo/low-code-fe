@@ -24,5 +24,6 @@ const activeKey = ref("1");
   width: 100%;
   height: 100%;
   background-color: #eee;
+  padding: 10px 15px;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <FlowMain>
-    <div class="question-edit-wrapper">
+    <div class="flow-edit-wrapper">
       <!-- 步骤条 -->
       <div class="steps-wrapper">
         <a-steps :current="current">
@@ -59,7 +59,7 @@ function nextStep() {
 </script>
 
 <style lang="scss" scoped>
-.question-edit-wrapper {
+.flow-edit-wrapper {
   width: 100%;
   height: 100%;
   display: flex;

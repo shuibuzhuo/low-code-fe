@@ -1,5 +1,5 @@
-import Component from "../../Basic/FlowInput/Component.vue";
-import PropComponent from "../../Basic/FlowInput/PropComponent.vue";
+import Component from "../../Layout/FlowDesc/Component.vue";
+import PropComponent from "../../Layout/FlowDesc/PropComponent.vue";
 
 export * from "./types";
 

@@ -2,7 +2,7 @@
   <div>
     <a-typography-paragraph>{{ title }}</a-typography-paragraph>
     <div>
-      <input type="text" />
+      <a-input></a-input>
     </div>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <div class="question-layout-wrapper">
+  <div class="flow-layout-wrapper">
     <slot></slot>
   </div>
 </template>
