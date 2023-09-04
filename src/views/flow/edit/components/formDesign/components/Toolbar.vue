@@ -6,6 +6,7 @@
 
 <style scoped lang="scss">
 .toolbar-wrapper {
+  height: 30px;
   background-color: #eee;
 }
 </style>

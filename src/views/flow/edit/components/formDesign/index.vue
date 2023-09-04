@@ -42,6 +42,10 @@ import MainEditCanvas from "./components/MainEditCanvas.vue";
   flex: 1;
 }
 
+.main-wrapper {
+  height: 100%;
+}
+
 .right {
   width: 300px;
 }

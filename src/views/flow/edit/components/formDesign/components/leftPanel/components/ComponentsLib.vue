@@ -10,9 +10,19 @@
       <a-typography-title :level="5">{{ group.groupTitle }}</a-typography-title>
       <!-- 每一组底下的所有组件的集合 -->
       <div class="lib-components-wrapper">
-        <div v-for="c in group.components" :key="c.type" class="lib-component">
+        <draggable
+          item-key="type"
+          :list="group.components"
+          :group="{ name: 'componentsGroup', pull: 'clone', put: false }"
+          @end="onDragEnd"
+        >
+          <template #item="{ element }">
+            <div>{{ element.title }}</div>
+          </template>
+        </draggable>
+        <!-- <div v-for="c in group.components" :key="c.type" class="lib-component">
           {{ c.title }}
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -20,6 +30,11 @@
 
 <script setup lang="ts">
 import { componentConfigGroup } from "@/views/components/FlowComponents";
+import draggable from "vuedraggable";
+
+function onDragEnd(obj) {
+  console.log("拖拽结束", obj);
+}
 </script>
 
 <style scoped lang="scss">
