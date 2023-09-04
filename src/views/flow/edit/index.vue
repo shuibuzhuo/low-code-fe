@@ -1,5 +1,5 @@
 <template>
-  <QuestionMain>
+  <FlowMain>
     <div class="question-edit-wrapper">
       <!-- 步骤条 -->
       <div class="steps-wrapper">
@@ -32,12 +32,12 @@
         <a-button>取消</a-button>
       </div>
     </div>
-  </QuestionMain>
+  </FlowMain>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
-import QuestionMain from "../QuestionMain.vue";
+import FlowMain from "../FlowMain.vue";
 import BaseSetting from "./components/BaseSetting.vue";
 import FormDesign from "./components/formDesign/index.vue";
 import FlowDesign from "./components/FlowDesign.vue";
