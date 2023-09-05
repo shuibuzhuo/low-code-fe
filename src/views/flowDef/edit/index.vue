@@ -36,13 +36,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import FlowDefMain from "../FlowDefMain.vue";
 import BaseSetting from "./components/BaseSetting.vue";
 import FormDesign from "./components/formDesign/index.vue";
 import FlowDesign from "./components/FlowDesign.vue";
 import AdvancedSetting from "./components/AdvancedSetting.vue";
+import { useRoute } from "vue-router";
+import { getFlowDefService } from "@/api/flowDef";
+import { useComponentsStore } from "@/stores/components";
 
+const route = useRoute();
+
+const componentsStore = useComponentsStore();
+
+// 当前的步骤
 const current = ref(1);
 
 // 每一步组件的 map
@@ -53,9 +61,28 @@ const map = {
   3: AdvancedSetting,
 };
 
+// 下一步
 function nextStep() {
   current.value++;
 }
+
+// 请求该流程设计的数据
+async function loadFlowDefData() {
+  const id = route.params.id as string;
+  const { componentsList } = await getFlowDefService(id);
+
+  let selectedId = "";
+  if (componentsList.length > 0) {
+    selectedId = componentsList[0].fe_id;
+  }
+
+  componentsStore.resetComponents({ componentsList, selectedId });
+}
+
+onMounted(() => {
+  // 请求该流程设计的数据
+  loadFlowDefData();
+});
 </script>
 
 <style lang="scss" scoped>

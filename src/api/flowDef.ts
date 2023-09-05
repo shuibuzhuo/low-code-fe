@@ -18,3 +18,10 @@ export function createFlowDefService(): Promise<ResDataType> {
     method: "post",
   });
 }
+
+// 获取单个流程定义的信息
+export function getFlowDefService(id: string): Promise<ResDataType> {
+  return request({
+    url: `/flowDef/${id}`,
+  });
+}
