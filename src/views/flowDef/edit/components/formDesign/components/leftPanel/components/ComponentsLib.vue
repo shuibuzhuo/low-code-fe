@@ -11,7 +11,7 @@
       <!-- 每一组底下的所有组件的集合 -->
       <draggable
         class="lib-components-wrapper"
-        :group="{ name: 'componentList', pull: 'clone' }"
+        :group="{ name: 'componentList', pull: 'clone', put: false }"
         :clone="cloneComponent"
         animation="300"
         draggable=".lib-component"

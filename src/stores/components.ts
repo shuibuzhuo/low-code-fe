@@ -23,7 +23,6 @@ export const useComponentsStore = defineStore("components", () => {
 
   // 重置组件信息
   function resetComponents(newState: StateType) {
-    console.log("newState", newState);
     componentsState.value = newState;
   }
 

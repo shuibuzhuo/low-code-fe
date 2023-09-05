@@ -20,7 +20,6 @@ function useGetComponentInfo() {
         componentsList: newComponentsListVal,
         selectedId: newSelectedIdVal,
       } = newComponentsState;
-      console.log("newComponentsListVal", newComponentsListVal);
       componentsList.value = newComponentsListVal;
       selectedId.value = newSelectedIdVal;
       selectedComponent.value =

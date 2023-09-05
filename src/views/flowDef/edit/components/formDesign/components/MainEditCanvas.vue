@@ -1,26 +1,72 @@
-<template>
-  <draggable
-    class="main-edit-canvas-wrapper"
-    v-model="componentsList"
-    item-key="fe_id"
-    group="componentList"
-  >
-    <template #item="{ element }">
-      {{ element.title }}
-    </template>
-  </draggable>
-</template>
-
-<script setup lang="ts">
-import useGetComponentInfo from "@/hooks/useGetComponentInfo";
+<script lang="tsx">
+import { defineComponent } from "vue";
 import draggable from "vuedraggable";
+import useGetComponentInfo from "@/hooks/useGetComponentInfo";
+import { type ComponentInfoType } from "@/stores/components";
+import { getComponentConfigByType } from "@/views/components/FormComponents";
 
 const { componentsList, selectedId } = useGetComponentInfo();
+
+function generateComponent(componentInfo: ComponentInfoType) {
+  const { type, props } = componentInfo;
+
+  const componentConfig = getComponentConfigByType(type);
+  console.log("generateComponent componentConfig", componentConfig);
+  if (componentConfig == null) return null;
+
+  const { Component } = componentConfig;
+
+  return <Component {...props} />;
+}
+
+export default defineComponent({
+  components: { draggable },
+  setup() {
+    return () => {
+      return (
+        <draggable
+          class="main-edit-canvas-wrapper"
+          v-model={componentsList.value}
+          item-key="fe_id"
+          group="componentList"
+          v-slots={{
+            item: ({ element: component }) => {
+              const { fe_id } = component;
+              return (
+                <div
+                  class={{
+                    "component-wrapper": true,
+                    selected: fe_id === selectedId.value,
+                  }}
+                >
+                  <div>{generateComponent(component)}</div>
+                </div>
+              );
+            },
+          }}
+        ></draggable>
+      );
+    };
+  },
+});
 </script>
 
 <style lang="scss" scoped>
 .main-edit-canvas-wrapper {
   height: calc(100% - 30px);
-  background-color: lightpink;
+}
+
+.component-wrapper {
+  margin: 12px;
+  padding: 12px;
+  border: 1px solid #fff;
+
+  &:hover {
+    border-color: #d9d9d9;
+  }
+}
+
+.selected {
+  border-color: #1890ff;
 }
 </style>
