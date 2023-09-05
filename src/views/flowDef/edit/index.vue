@@ -1,6 +1,6 @@
 <template>
-  <FlowMain>
-    <div class="flow-edit-wrapper">
+  <FlowDefMain>
+    <div class="flow-def-edit-wrapper">
       <!-- 步骤条 -->
       <div class="steps-wrapper">
         <a-steps :current="current">
@@ -32,12 +32,12 @@
         <a-button>取消</a-button>
       </div>
     </div>
-  </FlowMain>
+  </FlowDefMain>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
-import FlowMain from "../FlowMain.vue";
+import FlowDefMain from "../FlowDefMain.vue";
 import BaseSetting from "./components/BaseSetting.vue";
 import FormDesign from "./components/formDesign/index.vue";
 import FlowDesign from "./components/FlowDesign.vue";
@@ -59,7 +59,7 @@ function nextStep() {
 </script>
 
 <style lang="scss" scoped>
-.flow-edit-wrapper {
+.flow-def-edit-wrapper {
   width: 100%;
   height: 100%;
   display: flex;

@@ -1,5 +1,5 @@
 <template>
-  <div class="flow-layout-wrapper">
+  <div class="flow-def-layout-wrapper">
     <slot></slot>
   </div>
 </template>

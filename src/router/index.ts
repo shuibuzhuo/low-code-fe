@@ -15,9 +15,9 @@ const router = createRouter({
       component: () => import("@/views/manage/ManageMain.vue"),
     },
     {
-      path: "/flow/edit/:id",
-      name: "FlowEdit",
-      component: () => import("@/views/flow/edit/index.vue"),
+      path: "/flowDef/edit/:id",
+      name: "FlowDefEdit",
+      component: () => import("@/views/flowDef/edit/index.vue"),
     },
   ],
 });

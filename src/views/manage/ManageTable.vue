@@ -8,7 +8,7 @@
 
 <script setup lang="tsx">
 import { ref, onMounted } from "vue";
-import { getFlowListService } from "@/api/flow";
+import { getFlowDefListService } from "@/api/flowDef";
 import { LIST_PAGE_SIZE } from "@/constant/index";
 import { query } from "@/utils/util";
 
@@ -41,8 +41,8 @@ const columns = [
 ];
 
 // 获取列表数据
-async function getFlowList() {
-  const res = await getFlowListService({
+async function getFlowDefList() {
+  const res = await getFlowDefListService({
     page: page.value,
     pageSize: LIST_PAGE_SIZE,
     keyword,
@@ -53,7 +53,7 @@ async function getFlowList() {
 }
 
 onMounted(() => {
-  getFlowList();
+  getFlowDefList();
 });
 </script>
 

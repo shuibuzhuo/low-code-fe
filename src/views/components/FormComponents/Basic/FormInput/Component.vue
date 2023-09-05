@@ -8,9 +8,9 @@
 </template>
 
 <script setup lang="ts">
-import { type FlowInputPropsType, FlowInputDefaultProps } from "./types";
+import { type FormInputPropsType, FormInputDefaultProps } from "./types";
 
-withDefaults(defineProps<FlowInputPropsType>(), FlowInputDefaultProps);
+withDefaults(defineProps<FormInputPropsType>(), FormInputDefaultProps);
 </script>
 
 <style scoped></style>

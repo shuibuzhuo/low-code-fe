@@ -8,14 +8,14 @@
 </template>
 
 <script setup lang="ts">
-import { createFlowService } from "@/api/flow";
+import { createFlowDefService } from "@/api/flowDef";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 // 新增
 async function create() {
-  const res = await createFlowService();
-  router.push(`/flow/edit/${res.id}`);
+  const res = await createFlowDefService();
+  router.push(`/flowDef/edit/${res.id}`);
 }
 </script>
 

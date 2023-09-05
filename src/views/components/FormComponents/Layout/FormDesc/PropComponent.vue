@@ -3,9 +3,9 @@
 </template>
 
 <script setup lang="ts">
-import type { FlowDescPropsType } from "./types";
+import type { FormDescPropsType } from "./types";
 
-defineProps<FlowDescPropsType>();
+defineProps<FormDescPropsType>();
 </script>
 
 <style scoped></style>

@@ -1,11 +1,11 @@
 import type { DefineComponent } from "vue";
-import FlowInputConfig, { type FlowInputPropsType } from "./Basic/FlowInput";
-import FlowDescConfig, { type FlowDescPropsType } from "./Layout/FlowDesc";
+import FormInputConfig, { type FormInputPropsType } from "./Basic/FormInput";
+import FormDescConfig, { type FormDescPropsType } from "./Layout/FormDesc";
 
 // 组件的配置列表
-export const componentConfigList = [FlowInputConfig, FlowDescConfig];
+export const componentConfigList = [FormInputConfig, FormDescConfig];
 
-export type ComponentPropsType = FlowInputPropsType & FlowDescPropsType;
+export type ComponentPropsType = FormInputPropsType & FormDescPropsType;
 
 export type ComponentConfigType = {
   title: string;
@@ -19,12 +19,12 @@ export const componentConfigGroup = [
   {
     groupId: "layout",
     groupTitle: "布局类型",
-    components: [FlowDescConfig],
+    components: [FormInputConfig],
   },
   {
     groupId: "basic",
     groupTitle: "基本类型",
-    components: [FlowInputConfig],
+    components: [FormDescConfig],
   },
 ];
 

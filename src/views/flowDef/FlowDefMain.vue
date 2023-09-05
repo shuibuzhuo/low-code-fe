@@ -1,5 +1,5 @@
 <template>
-  <div class="flow-main-wrapper">
+  <div class="flow-def-main-wrapper">
     <slot></slot>
   </div>
 </template>
@@ -7,7 +7,7 @@
 <script setup lang="ts"></script>
 
 <style lang="scss" scoped>
-.flow-main-wrapper {
+.flow-def-main-wrapper {
   width: 100%;
   height: 100%;
 }

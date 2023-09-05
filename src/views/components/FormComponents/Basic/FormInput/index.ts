@@ -5,7 +5,7 @@ export * from "./types";
 
 export default {
   title: "单行输入框",
-  type: "flowInput",
+  type: "formInput",
   Component,
   PropComponent,
 };
