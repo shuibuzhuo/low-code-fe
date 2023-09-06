@@ -2,16 +2,19 @@
 import { defineComponent } from "vue";
 import draggable from "vuedraggable";
 import useGetComponentInfo from "@/hooks/useGetComponentInfo";
-import { type ComponentInfoType } from "@/stores/components";
+import {
+  useComponentsStore,
+  type ComponentInfoType,
+} from "@/stores/components";
 import { getComponentConfigByType } from "@/views/components/FormComponents";
 
 const { componentsList, selectedId } = useGetComponentInfo();
+const componentsStore = useComponentsStore();
 
 function generateComponent(componentInfo: ComponentInfoType) {
   const { type, props } = componentInfo;
 
   const componentConfig = getComponentConfigByType(type);
-  console.log("generateComponent componentConfig", componentConfig);
   if (componentConfig == null) return null;
 
   const { Component } = componentConfig;
@@ -26,7 +29,14 @@ export default defineComponent({
       return (
         <draggable
           class="main-edit-canvas-wrapper"
-          v-model={componentsList.value}
+          modelValue={componentsList.value}
+          onUpdate:modelValue={(val) => {
+            componentsStore.resetComponents({
+              ...componentsStore.componentsState,
+              componentsList: val,
+            });
+            componentsList.value = val;
+          }}
           item-key="fe_id"
           group="componentList"
           v-slots={{

@@ -37,6 +37,7 @@ function onDragEnd(obj) {
 
 function cloneComponent(e) {
   console.log("克隆", e);
+  return e;
 }
 </script>
 
