@@ -9,23 +9,13 @@
       <!-- 每一组的标题 -->
       <a-typography-title :level="5">{{ group.groupTitle }}</a-typography-title>
       <!-- 每一组底下的所有组件的集合 -->
-      <!-- <draggable
-        class="lib-components-wrapper"
-        :group="{ name: 'componentList', pull: 'clone', put: false }"
-        :clone="cloneComponent"
-        animation="300"
-        draggable=".lib-component"
-        v-model="group.components"
-        item-key="type"
-        @end="onDragEnd"
-      >
-        <template #item="{ element }">
-          <div class="lib-component">{{ element.title }}</div>
-        </template>
-      </draggable> -->
-
       <div class="lib-components-wrapper">
-        <div class="lib-component" v-for="c in group.components" :key="c.type">
+        <div
+          class="lib-component"
+          v-for="c in group.components"
+          :key="c.type"
+          :data-info="JSON.stringify(c)"
+        >
           {{ c.title }}
         </div>
       </div>
@@ -35,18 +25,11 @@
 
 <script setup lang="ts">
 import { componentConfigGroup } from "@/views/components/FormComponents";
-// import draggable from "vuedraggable";
 import { onMounted } from "vue";
 import Sortable from "sortablejs";
+import { useComponentsStore } from "@/stores/components";
 
-function onDragEnd(obj) {
-  console.log("拖拽结束", obj);
-}
-
-function cloneComponent(e) {
-  console.log("克隆", e);
-  return e;
-}
+const componentStore = useComponentsStore();
 
 function initSortable() {
   const allGroup = document.querySelectorAll(".lib-components-wrapper");
@@ -55,8 +38,28 @@ function initSortable() {
     Sortable.create(group, {
       draggable: ".lib-component",
       group: { name: "componentList", pull: "clone", put: false },
+      ghostClass: "sortable-ghost",
+      dragClass: "sortable-drag",
       onEnd: function (e) {
         console.log("onEnd e", e);
+        if (e.from !== e.to) {
+          const clone = e.clone;
+          const dragged = e.item;
+          const config = JSON.parse(clone.dataset.info);
+          console.log("dragged", dragged);
+          // 获取父级元素
+          const parentElement = dragged.parentNode;
+
+          // 删除 DOM 元素
+          parentElement.removeChild(dragged);
+          const newComponent = {
+            fe_id: "100",
+            title: config.title,
+            type: config.type,
+            props: {},
+          };
+          componentStore.addComponent(newComponent, e.newIndex);
+        }
       },
       onClone: function (e) {
         console.log("onClone e", e);

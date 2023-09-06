@@ -8,7 +8,7 @@ export function insertComponent(
 ) {
   const { componentsList } = state;
 
-  componentsList.splice(index + 1, 0, newComponent);
+  componentsList.splice(index, 0, newComponent);
 
   state.selectedId = newComponent.fe_id;
 }

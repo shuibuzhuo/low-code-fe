@@ -93,6 +93,27 @@ export default defineComponent({
 <style lang="scss" scoped>
 .main-edit-canvas-wrapper {
   height: calc(100% - 30px);
+
+  :deep(.sortable-ghost) {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    &::before {
+      content: " ";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 20px;
+      background: rgb(89, 89, 223);
+      z-index: 2;
+    }
+  }
+  :deep(.lib-component.sortable-ghost) {
+    width: 100%;
+    height: 0;
+    background-color: red;
+  }
 }
 
 .component-wrapper {
