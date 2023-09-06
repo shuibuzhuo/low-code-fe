@@ -44,14 +44,7 @@ export default defineComponent({
       return (
         <draggable
           class="main-edit-canvas-wrapper"
-          modelValue={componentsList.value}
-          onUpdate:modelValue={(val) => {
-            componentsStore.resetComponents({
-              ...componentsStore.componentsState,
-              componentsList: val,
-            });
-            componentsList.value = val;
-          }}
+          v-model={componentsList}
           item-key="fe_id"
           group="componentList"
           v-slots={{
