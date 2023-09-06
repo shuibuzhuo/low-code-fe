@@ -9,10 +9,7 @@ import {
 import { getComponentConfigByType } from "@/views/components/FormComponents";
 
 const { componentsList, selectedId } = useGetComponentInfo();
-// import Sortable from "sortablejs";
-import draggable from "vuedraggable";
-
-const componentsStore = useComponentsStore();
+import Sortable from "sortablejs";
 
 function generateComponent(componentInfo: ComponentInfoType) {
   const { type, props } = componentInfo;
@@ -26,50 +23,67 @@ function generateComponent(componentInfo: ComponentInfoType) {
 }
 
 export default defineComponent({
-  components: { draggable },
+  // components: { draggable },
   setup() {
-    // function initSortable() {
-    //   const canvasWrapper = document.querySelector(".main-edit-canvas-wrapper");
+    function initSortable() {
+      const canvasWrapper = document.querySelector(".main-edit-canvas-wrapper");
 
-    //   Sortable.create(canvasWrapper, {
-    //     group: "componentList",
-    //   });
-    // }
+      Sortable.create(canvasWrapper, {
+        group: "componentList",
+      });
+    }
 
-    // onMounted(() => {
-    //   initSortable();
-    // });
+    onMounted(() => {
+      initSortable();
+    });
 
     return () => {
       return (
-        <draggable
-          class="main-edit-canvas-wrapper"
-          modelValue={componentsList.value}
-          onUpdate:modelValue={(val) => {
-            componentsStore.resetComponents({
-              ...componentsStore.componentsState,
-              componentsList: val,
-            });
-            componentsList.value = val;
-          }}
-          item-key="fe_id"
-          group="componentList"
-          v-slots={{
-            item: ({ element: component }) => {
-              const { fe_id } = component;
-              return (
-                <div
-                  class={{
-                    "component-wrapper": true,
-                    selected: fe_id === selectedId.value,
-                  }}
-                >
-                  <div>{generateComponent(component)}</div>
-                </div>
-              );
-            },
-          }}
-        ></draggable>
+        // <draggable
+        //   class="main-edit-canvas-wrapper"
+        //   modelValue={componentsList.value}
+        //   onUpdate:modelValue={(val) => {
+        //     componentsStore.resetComponents({
+        //       ...componentsStore.componentsState,
+        //       componentsList: val,
+        //     });
+        //     componentsList.value = val;
+        //   }}
+        //   item-key="fe_id"
+        //   group="componentList"
+        //   v-slots={{
+        //     item: ({ element: component }) => {
+        //       const { fe_id } = component;
+        //       return (
+        //         <div
+        //           class={{
+        //             "component-wrapper": true,
+        //             selected: fe_id === selectedId.value,
+        //           }}
+        //         >
+        //           <div>{generateComponent(component)}</div>
+        //         </div>
+        //       );
+        //     },
+        //   }}
+        // ></draggable>
+
+        <div class="main-edit-canvas-wrapper">
+          {componentsList.value.map((c) => {
+            const { fe_id } = c;
+            return (
+              <div
+                key={fe_id}
+                class={{
+                  "component-wrapper": true,
+                  selected: fe_id === selectedId.value,
+                }}
+              >
+                <div>{generateComponent(c)}</div>
+              </div>
+            );
+          })}
+        </div>
       );
     };
   },

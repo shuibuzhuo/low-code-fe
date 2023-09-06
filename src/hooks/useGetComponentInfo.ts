@@ -26,7 +26,6 @@ function useGetComponentInfo() {
         newComponentsListVal.find(
           (component) => component.fe_id === newSelectedIdVal
         ) || null;
-      console.log("componentList", componentsList.value);
     }
   );
 
