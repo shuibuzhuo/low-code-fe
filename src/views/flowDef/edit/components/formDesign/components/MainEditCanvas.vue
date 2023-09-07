@@ -4,7 +4,6 @@ import useGetComponentInfo from "@/hooks/useGetComponentInfo";
 import { type ComponentInfoType } from "@/stores/components";
 import { getComponentConfigByType } from "@/views/components/FormComponents";
 
-const { componentsList, selectedId } = useGetComponentInfo();
 import Sortable from "sortablejs";
 
 function generateComponent(componentInfo: ComponentInfoType) {
@@ -35,6 +34,7 @@ export default defineComponent({
     });
 
     return () => {
+      const { componentsList, selectedId } = useGetComponentInfo();
       return (
         <div class="main-edit-canvas-wrapper">
           {componentsList.value.map((c) => {
