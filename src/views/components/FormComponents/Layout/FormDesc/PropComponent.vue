@@ -1,5 +1,5 @@
 <template>
-  <div>属性面板</div>
+  <div>描述文字的属性面板</div>
 </template>
 
 <script setup lang="ts">

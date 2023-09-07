@@ -26,7 +26,10 @@
 </template>
 
 <script setup lang="ts">
-import { componentConfigGroup } from "@/views/components/FormComponents";
+import {
+  componentConfigGroup,
+  type ComponentConfigType,
+} from "@/views/components/FormComponents";
 import { onMounted } from "vue";
 import Sortable from "sortablejs";
 import { useComponentsStore } from "@/stores/components";
@@ -47,7 +50,9 @@ function initSortable() {
         if (e.from !== e.to) {
           const clone = e.clone;
           const dragged = e.item;
-          const config = JSON.parse(clone.dataset.info!);
+          const config = JSON.parse(clone.dataset.info!) as ComponentConfigType;
+          const { title, type, defaultProps } = config;
+          console.log("config", config);
           // 获取父级元素
           const parentElement = dragged.parentNode;
 
@@ -55,9 +60,9 @@ function initSortable() {
           parentElement!.removeChild(dragged);
           const newComponent = {
             fe_id: uuid(),
-            title: config.title,
-            type: config.type,
-            props: {},
+            title: title,
+            type: type,
+            props: defaultProps,
           };
           componentStore.addComponent(newComponent, e.newIndex!);
         }

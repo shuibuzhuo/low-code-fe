@@ -12,6 +12,7 @@ export type ComponentConfigType = {
   type: string;
   PropComponent: DefineComponent<ComponentPropsType>;
   Component: DefineComponent<ComponentPropsType>;
+  defaultProps: ComponentPropsType;
 };
 
 // 组件按照组区分的配置列表

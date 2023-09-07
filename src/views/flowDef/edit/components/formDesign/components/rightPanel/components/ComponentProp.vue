@@ -1,7 +1,29 @@
-<template>
-  <div>编辑控件</div>
-</template>
+<script lang="tsx">
+import useGetComponentInfo from "@/hooks/useGetComponentInfo";
+import { getComponentConfigByType } from "@/views/components/FormComponents";
+import { defineComponent } from "vue";
 
-<script setup lang="ts"></script>
+const NoConfig = () => <div>请选择组件</div>;
 
-<style scoped></style>
+export default defineComponent({
+  setup() {
+    return () => {
+      const { selectedComponent } = useGetComponentInfo();
+
+      if (selectedComponent == null) return <NoConfig />;
+
+      const { type, props } = selectedComponent;
+
+      const selectedComponentConfig = getComponentConfigByType(type);
+
+      if (selectedComponentConfig == null) return <NoConfig />;
+
+      const { PropComponent } = selectedComponentConfig;
+
+      return <PropComponent {...props} />;
+    };
+  },
+});
+</script>
+
+<style lang="scss" scoped></style>
