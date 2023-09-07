@@ -10,9 +10,9 @@ const router = createRouter({
       component: Home,
     },
     {
-      path: "/manage/main",
-      name: "ManageMain",
-      component: () => import("@/views/manage/ManageMain.vue"),
+      path: "/flowDef/list",
+      name: "FlowDefList",
+      component: () => import("@/views/flowDefList/FlowDefListMain.vue"),
     },
     {
       path: "/flowDef/edit/:id",

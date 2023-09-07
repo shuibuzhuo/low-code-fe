@@ -1,5 +1,5 @@
 <template>
-  <FlowDefMain>
+  <FlowDefLayout>
     <div class="flow-def-edit-wrapper">
       <!-- 步骤条 -->
       <div class="steps-wrapper">
@@ -32,12 +32,12 @@
         <a-button>取消</a-button>
       </div>
     </div>
-  </FlowDefMain>
+  </FlowDefLayout>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import FlowDefMain from "../FlowDefMain.vue";
+import FlowDefLayout from "@/layouts/FlowDefLayout.vue";
 import BaseSetting from "./components/BaseSetting.vue";
 import FormDesign from "./components/formDesign/index.vue";
 import FlowDesign from "./components/FlowDesign.vue";

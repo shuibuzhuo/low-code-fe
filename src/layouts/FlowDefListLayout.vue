@@ -1,5 +1,5 @@
 <template>
-  <div class="manage-layout-wrapper">
+  <div class="flow-def-list-wrapper">
     <div class="btn-wrapper">
       <a-button type="primary" @click="create">新增</a-button>
     </div>
