@@ -1,14 +1,15 @@
-import type { ComponentInfoType, StateType } from "./components";
+import { type Ref } from "vue";
+import type { ComponentInfoType } from "./components";
 
 // 插入组件
 export function insertComponent(
-  state: StateType,
+  state: { componentsList: Ref<ComponentInfoType[]>; selectedId: Ref<string> },
   newComponent: ComponentInfoType,
   index: number
 ) {
-  const { componentsList } = state;
+  const { componentsList, selectedId } = state;
 
-  componentsList.splice(index, 0, newComponent);
+  componentsList.value.splice(index, 0, newComponent);
 
-  state.selectedId = newComponent.fe_id;
+  selectedId.value = newComponent.fe_id;
 }

@@ -10,30 +10,34 @@ export type ComponentInfoType = {
   props: ComponentPropsType;
 };
 
-export type StateType = {
-  componentsList: ComponentInfoType[];
-  selectedId: string;
-};
-
 export const useComponentsStore = defineStore("components", () => {
-  const componentsState = ref<StateType>({
-    componentsList: [],
-    selectedId: "",
-  });
+  const componentsList = ref<ComponentInfoType[]>([]);
+  const selectedId = ref<string>("");
 
   // 重置组件信息
-  function resetComponents(newState: StateType) {
-    componentsState.value = newState;
+  function resetComponents(newState: {
+    componentsList: ComponentInfoType[];
+    selectedId: string;
+  }) {
+    componentsList.value = newState.componentsList;
+    selectedId.value = newState.selectedId;
   }
 
   // 添加新组件
   function addComponent(newComponent: ComponentInfoType, index: number) {
-    insertComponent(componentsState.value, newComponent, index);
+    insertComponent({ componentsList, selectedId }, newComponent, index);
+  }
+
+  // 设置选中的组件
+  function changeSelectedId(newId: string) {
+    selectedId.value = newId;
   }
 
   return {
-    componentsState,
+    componentsList,
+    selectedId,
     resetComponents,
     addComponent,
+    changeSelectedId,
   };
 });

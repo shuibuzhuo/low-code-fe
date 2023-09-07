@@ -5,6 +5,7 @@ import { type ComponentInfoType } from "@/stores/components";
 import { getComponentConfigByType } from "@/views/components/FormComponents";
 
 import Sortable from "sortablejs";
+import { useComponentsStore } from "@/stores/components";
 
 function generateComponent(componentInfo: ComponentInfoType) {
   const { type, props } = componentInfo;
@@ -19,6 +20,8 @@ function generateComponent(componentInfo: ComponentInfoType) {
 
 export default defineComponent({
   setup() {
+    const componentsStore = useComponentsStore();
+
     function initSortable() {
       const canvasWrapper = document.querySelector(
         ".main-edit-canvas-wrapper"
@@ -27,6 +30,11 @@ export default defineComponent({
       Sortable.create(canvasWrapper!, {
         group: "componentList",
       });
+    }
+
+    function handleClick(e: MouseEvent, fe_id: string) {
+      e.stopPropagation();
+      componentsStore.changeSelectedId(fe_id);
     }
 
     onMounted(() => {
@@ -46,6 +54,7 @@ export default defineComponent({
                   "component-wrapper": true,
                   selected: fe_id === selectedId.value,
                 }}
+                onClick={(e) => handleClick(e, fe_id)}
               >
                 <div>{generateComponent(c)}</div>
               </div>
@@ -90,6 +99,6 @@ export default defineComponent({
 }
 
 .selected {
-  border-color: #1890ff;
+  border-color: #1890ff !important;
 }
 </style>
