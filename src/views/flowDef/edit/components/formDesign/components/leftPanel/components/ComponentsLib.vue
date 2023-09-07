@@ -28,41 +28,37 @@ import { componentConfigGroup } from "@/views/components/FormComponents";
 import { onMounted } from "vue";
 import Sortable from "sortablejs";
 import { useComponentsStore } from "@/stores/components";
+import { v4 as uuid } from "uuid";
 
 const componentStore = useComponentsStore();
 
 function initSortable() {
   const allGroup = document.querySelectorAll(".lib-components-wrapper");
   for (let i = 0; i < allGroup.length; i++) {
-    const group = allGroup[i];
+    const group = allGroup[i] as HTMLElement;
     Sortable.create(group, {
       draggable: ".lib-component",
       group: { name: "componentList", pull: "clone", put: false },
       ghostClass: "sortable-ghost",
       dragClass: "sortable-drag",
       onEnd: function (e) {
-        console.log("onEnd e", e);
         if (e.from !== e.to) {
           const clone = e.clone;
           const dragged = e.item;
-          const config = JSON.parse(clone.dataset.info);
-          console.log("dragged", dragged);
+          const config = JSON.parse(clone.dataset.info!);
           // 获取父级元素
           const parentElement = dragged.parentNode;
 
           // 删除 DOM 元素
-          parentElement.removeChild(dragged);
+          parentElement!.removeChild(dragged);
           const newComponent = {
-            fe_id: "100",
+            fe_id: uuid(),
             title: config.title,
             type: config.type,
             props: {},
           };
-          componentStore.addComponent(newComponent, e.newIndex);
+          componentStore.addComponent(newComponent, e.newIndex!);
         }
-      },
-      onClone: function (e) {
-        console.log("onClone e", e);
       },
     });
   }

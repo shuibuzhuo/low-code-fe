@@ -1,4 +1,4 @@
-import request, { type ResDataType } from "@/utils/request.ts";
+import request, { type ResDataType } from "@/utils/request";
 import type { SearchOption } from "./types";
 
 // 获取（查询）流程定义列表

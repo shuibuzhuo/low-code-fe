@@ -22,6 +22,7 @@ function useGetComponentInfo() {
       } = newComponentsState;
       componentsList.value = newComponentsListVal;
       selectedId.value = newSelectedIdVal;
+      console.log("selectedId.value", selectedId.value);
       selectedComponent.value =
         newComponentsListVal.find(
           (component) => component.fe_id === newSelectedIdVal

@@ -1,11 +1,7 @@
 <script lang="tsx">
 import { defineComponent, onMounted } from "vue";
-// import draggable from "vuedraggable";
 import useGetComponentInfo from "@/hooks/useGetComponentInfo";
-import {
-  useComponentsStore,
-  type ComponentInfoType,
-} from "@/stores/components";
+import { type ComponentInfoType } from "@/stores/components";
 import { getComponentConfigByType } from "@/views/components/FormComponents";
 
 const { componentsList, selectedId } = useGetComponentInfo();
@@ -23,12 +19,13 @@ function generateComponent(componentInfo: ComponentInfoType) {
 }
 
 export default defineComponent({
-  // components: { draggable },
   setup() {
     function initSortable() {
-      const canvasWrapper = document.querySelector(".main-edit-canvas-wrapper");
+      const canvasWrapper = document.querySelector(
+        ".main-edit-canvas-wrapper"
+      ) as HTMLElement;
 
-      Sortable.create(canvasWrapper, {
+      Sortable.create(canvasWrapper!, {
         group: "componentList",
       });
     }
@@ -39,35 +36,6 @@ export default defineComponent({
 
     return () => {
       return (
-        // <draggable
-        //   class="main-edit-canvas-wrapper"
-        //   modelValue={componentsList.value}
-        //   onUpdate:modelValue={(val) => {
-        //     componentsStore.resetComponents({
-        //       ...componentsStore.componentsState,
-        //       componentsList: val,
-        //     });
-        //     componentsList.value = val;
-        //   }}
-        //   item-key="fe_id"
-        //   group="componentList"
-        //   v-slots={{
-        //     item: ({ element: component }) => {
-        //       const { fe_id } = component;
-        //       return (
-        //         <div
-        //           class={{
-        //             "component-wrapper": true,
-        //             selected: fe_id === selectedId.value,
-        //           }}
-        //         >
-        //           <div>{generateComponent(component)}</div>
-        //         </div>
-        //       );
-        //     },
-        //   }}
-        // ></draggable>
-
         <div class="main-edit-canvas-wrapper">
           {componentsList.value.map((c) => {
             const { fe_id } = c;

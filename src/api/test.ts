@@ -1,7 +1,7 @@
-import request from '@/utils/request.ts'
+import request from "@/utils/request";
 
 export function testApi() {
   return request({
-    url: '/test'
-  })
+    url: "/test",
+  });
 }
