@@ -9,7 +9,11 @@
         <!-- 工具栏 -->
         <Toolbar></Toolbar>
         <!-- 中间画布 -->
-        <MainEditCanvas></MainEditCanvas>
+        <div class="canvas-wrapper">
+          <div class="canvas-area">
+            <MainEditCanvas></MainEditCanvas>
+          </div>
+        </div>
       </div>
     </div>
     <div class="right">
@@ -44,6 +48,23 @@ import MainEditCanvas from "./components/MainEditCanvas.vue";
 
 .main-wrapper {
   height: 100%;
+}
+
+.canvas-wrapper {
+  width: 100%;
+  height: calc(100% - 30px);
+  position: relative;
+}
+
+.canvas-area {
+  width: 400px;
+  height: 600px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: auto;
+  box-shadow: 0 2px 10px #0000001f;
 }
 
 .right {

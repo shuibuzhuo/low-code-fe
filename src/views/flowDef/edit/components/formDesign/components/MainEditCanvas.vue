@@ -60,11 +60,12 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .main-edit-canvas-wrapper {
-  height: calc(100% - 30px);
+  min-height: 100%;
+  padding-top: 12px;
+  overflow: hidden;
 
   :deep(.lib-component-body) {
     font-size: 0;
-    padding: 0;
   }
 
   :deep(.lib-component.sortable-ghost) {
@@ -78,6 +79,10 @@ export default defineComponent({
   margin: 12px;
   padding: 12px;
   border: 1px solid #fff;
+
+  &:first-child {
+    margin-top: 0;
+  }
 
   &:hover {
     border-color: #d9d9d9;
