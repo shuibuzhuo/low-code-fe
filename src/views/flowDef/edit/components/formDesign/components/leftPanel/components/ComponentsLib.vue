@@ -16,7 +16,9 @@
           :key="c.type"
           :data-info="JSON.stringify(c)"
         >
-          {{ c.title }}
+          <div class="lib-component-body">
+            {{ c.title }}
+          </div>
         </div>
       </div>
     </div>
@@ -74,11 +76,17 @@ onMounted(() => {
   margin-top: 20px;
 }
 .lib-component {
-  padding: 5px 10px;
+  width: 48%;
+  margin: 1%;
   background-color: #fff;
   display: inline-block;
   border-radius: 3px;
   color: #424242;
   font-size: 12px;
+}
+
+.lib-component-body {
+  padding: 8px 10px;
+  cursor: move;
 }
 </style>

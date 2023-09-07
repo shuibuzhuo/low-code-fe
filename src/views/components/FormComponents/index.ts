@@ -19,7 +19,7 @@ export const componentConfigGroup = [
   {
     groupId: "layout",
     groupTitle: "布局类型",
-    components: [FormInputConfig],
+    components: [FormInputConfig, FormInputConfig, FormInputConfig],
   },
   {
     groupId: "basic",
