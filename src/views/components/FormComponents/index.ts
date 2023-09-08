@@ -1,11 +1,18 @@
 import type { DefineComponent } from "vue";
 import FormInputConfig, { type FormInputPropsType } from "./Basic/FormInput";
 import FormDescConfig, { type FormDescPropsType } from "./Layout/FormDesc";
+import FormGroupConfig, { type FormGroupPropsType } from "./Layout/FormGroup";
 
 // 组件的配置列表
-export const componentConfigList = [FormInputConfig, FormDescConfig];
+export const componentConfigList = [
+  FormInputConfig,
+  FormDescConfig,
+  FormGroupConfig,
+];
 
-export type ComponentPropsType = FormInputPropsType & FormDescPropsType;
+export type ComponentPropsType = FormInputPropsType &
+  FormDescPropsType &
+  FormGroupPropsType;
 
 export type ComponentConfigType = {
   title: string;
@@ -20,12 +27,12 @@ export const componentConfigGroup = [
   {
     groupId: "layout",
     groupTitle: "布局类型",
-    components: [FormInputConfig, FormInputConfig, FormInputConfig],
+    components: [FormDescConfig, FormGroupConfig],
   },
   {
     groupId: "basic",
     groupTitle: "基本类型",
-    components: [FormDescConfig],
+    components: [FormInputConfig, FormInputConfig, FormInputConfig],
   },
 ];
 
