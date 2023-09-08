@@ -1,5 +1,5 @@
-import Component from "../../Layout/FormDesc/Component.vue";
-import PropComponent from "../../Layout/FormDesc/PropComponent.vue";
+import Component from "../../Layout/FormGroup/Component.vue";
+import PropComponent from "../../Layout/FormGroup/PropComponent.vue";
 import { FormGroupDefaultProps } from "./types";
 
 export * from "./types";
