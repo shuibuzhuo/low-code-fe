@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent, onMounted } from "vue";
+import { defineComponent, onMounted, useSlots, type Ref } from "vue";
 import useGetComponentInfo from "@/hooks/useGetComponentInfo";
 import { type ComponentInfoType } from "@/stores/components";
 import { getComponentConfigByType } from "@/views/components/FormComponents";
@@ -7,15 +7,70 @@ import { getComponentConfigByType } from "@/views/components/FormComponents";
 import Sortable from "sortablejs";
 import { useComponentsStore } from "@/stores/components";
 
-function generateComponent(componentInfo: ComponentInfoType) {
-  const { type, props } = componentInfo;
+function isLayout(type: string) {
+  if (type === "formGroup") return true;
+
+  return false;
+}
+
+/**
+ * 生成组件
+ * @param componentInfo 组件信息
+ * @param index 组件在画布里的索引
+ */
+function generateComponent(
+  componentInfo: ComponentInfoType,
+  index: number,
+  selectedId: Ref<string>,
+  handleClick: (e: MouseEvent, fe_id: string) => void
+) {
+  const { fe_id, type, props, children = [] } = componentInfo;
 
   const componentConfig = getComponentConfigByType(type);
   if (componentConfig == null) return null;
 
   const { Component } = componentConfig;
 
-  return <Component {...props} />;
+  if (!isLayout(type)) {
+    // 普通组件
+    return (
+      <div
+        key={fe_id}
+        class={{
+          "component-wrapper": true,
+          group: isLayout(type),
+          selected: fe_id === selectedId.value,
+        }}
+        onClick={(e) => handleClick(e, fe_id)}
+      >
+        <Component {...props}></Component>
+      </div>
+    );
+  } else {
+    // 布局组件
+    return (
+      <div
+        key={fe_id}
+        class={{
+          "component-wrapper": true,
+          group: isLayout(type),
+          selected: fe_id === selectedId.value,
+        }}
+        onClick={(e) => handleClick(e, fe_id)}
+      >
+        <Component {...props} index={index}>
+          {children.map((child, childIndex) => {
+            return generateComponent(
+              child,
+              childIndex,
+              selectedId,
+              handleClick
+            );
+          })}
+        </Component>
+      </div>
+    );
+  }
 }
 
 export default defineComponent({
@@ -28,6 +83,7 @@ export default defineComponent({
       ) as HTMLElement;
 
       Sortable.create(canvasWrapper!, {
+        animation: 340,
         group: "componentList",
       });
     }
@@ -45,19 +101,25 @@ export default defineComponent({
       const { componentsList, selectedId } = useGetComponentInfo();
       return (
         <div class="main-edit-canvas-wrapper">
-          {componentsList.value.map((c) => {
-            const { fe_id } = c;
-            return (
+          {componentsList.value.map((c, index) => {
+            {
+              /* return (
               <div
                 key={fe_id}
                 class={{
                   "component-wrapper": true,
+                  group: isLayout(type),
                   selected: fe_id === selectedId.value,
                 }}
                 onClick={(e) => handleClick(e, fe_id)}
               >
-                <div>{generateComponent(c)}</div>
+                <div>{generateComponent(c, index)}</div>
               </div>
+            ); */
+            }
+
+            return (
+              <div>{generateComponent(c, index, selectedId, handleClick)}</div>
             );
           })}
         </div>
@@ -87,18 +149,22 @@ export default defineComponent({
 .component-wrapper {
   margin: 12px;
   padding: 12px;
-  border: 1px solid #fff;
+  border: 1px dashed #fff;
 
   &:first-child {
     margin-top: 0;
   }
 
+  &.group {
+    border-color: #ddd;
+  }
+
   &:hover {
-    border-color: #d9d9d9;
+    border-color: #e4e4e4;
   }
 }
 
 .selected {
-  border-color: #1890ff !important;
+  border-color: #2d67ef !important;
 }
 </style>

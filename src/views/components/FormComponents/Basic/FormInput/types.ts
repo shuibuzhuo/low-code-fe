@@ -3,5 +3,5 @@ export type FormInputPropsType = {
 };
 
 export const FormInputDefaultProps: FormInputPropsType = {
-  title: "名称",
+  title: "单行输入框",
 };

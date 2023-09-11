@@ -8,6 +8,7 @@ export type ComponentInfoType = {
   type: string;
   title: string;
   props: ComponentPropsType;
+  children?: ComponentInfoType[];
 };
 
 export const useComponentsStore = defineStore("components", () => {
@@ -23,9 +24,22 @@ export const useComponentsStore = defineStore("components", () => {
     selectedId.value = newState.selectedId;
   }
 
-  // 添加新组件
-  function addComponent(newComponent: ComponentInfoType, index: number) {
-    insertComponent({ componentsList, selectedId }, newComponent, index);
+  /**
+   * 添加新组件
+   * @param newComponent 新组件
+   * @param index 新组件在画布的位置
+   */
+  function addComponent(
+    newComponent: ComponentInfoType,
+    index: number,
+    groupIndex: number
+  ) {
+    insertComponent(
+      { componentsList, selectedId },
+      newComponent,
+      index,
+      groupIndex
+    );
   }
 
   // 设置选中的组件

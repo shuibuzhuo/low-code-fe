@@ -16,7 +16,7 @@
           :key="c.type"
           :data-info="JSON.stringify(c)"
         >
-          <div class="lib-component-body">
+          <div class="lib-component-body" :data-info="JSON.stringify(c)">
             {{ c.title }}
           </div>
         </div>
@@ -30,7 +30,7 @@ import {
   componentConfigGroup,
   type ComponentConfigType,
 } from "@/views/components/FormComponents";
-import { onMounted } from "vue";
+import { nextTick, onMounted } from "vue";
 import Sortable from "sortablejs";
 import { useComponentsStore } from "@/stores/components";
 import { v4 as uuid } from "uuid";
@@ -46,25 +46,35 @@ function initSortable() {
       group: { name: "componentList", pull: "clone", put: false },
       ghostClass: "sortable-ghost",
       dragClass: "sortable-drag",
+      sort: false,
       onEnd: function (e) {
         if (e.from !== e.to) {
           const clone = e.clone;
           const dragged = e.item;
           const config = JSON.parse(clone.dataset.info!) as ComponentConfigType;
           const { title, type, defaultProps } = config;
-          console.log("config", config);
+          const { id = "", dataset = {} } = e.to;
+
+          console.log("onEnd e.to", e.to);
+
           // 获取父级元素
           const parentElement = dragged.parentNode;
-
           // 删除 DOM 元素
           parentElement!.removeChild(dragged);
+
+          let groupIndex;
+          if (dataset.index) {
+            groupIndex = parseInt(dataset.index);
+          }
+
+          // 更新 store，增加新组件
           const newComponent = {
             fe_id: uuid(),
             title: title,
             type: type,
             props: defaultProps,
           };
-          componentStore.addComponent(newComponent, e.newIndex!);
+          componentStore.addComponent(newComponent, e.newIndex!, groupIndex);
         }
       },
     });

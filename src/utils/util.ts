@@ -12,3 +12,10 @@ export function query(name: string): string | null {
   }
   return res[2] || "";
 }
+
+export function isEmpty(val: unknown) {
+  if (val === "") return true;
+  if (val === null) return true;
+  if (val === undefined) return true;
+  return false;
+}
