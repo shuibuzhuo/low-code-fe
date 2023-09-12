@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, useSlots } from "vue";
+import { onMounted } from "vue";
 import { FormGroupDefaultProps, type FormGroupPropsType } from "./types";
 import Sortable from "sortablejs";
 

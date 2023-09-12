@@ -13,6 +13,7 @@ import {
   isThreeCols,
   isTwoCols,
 } from "@/utils/util";
+import Test from "./Test.vue";
 
 /**
  * 生成组件
@@ -66,16 +67,20 @@ function generateComponent(
         }}
         onClick={(e) => handleClick(e, fe_id)}
       >
-        <Component {...props} index={index}>
-          {children.map((child, childIndex) => {
-            return generateComponent(
-              child,
-              childIndex,
-              selectedId,
-              handleClick
-            );
-          })}
-        </Component>
+        {children && children.length > 0 ? (
+          <Component {...props} index={index}>
+            {children.map((child, childIndex) => {
+              return generateComponent(
+                child,
+                childIndex,
+                selectedId,
+                handleClick
+              );
+            })}
+          </Component>
+        ) : (
+          <Component {...props} index={index}></Component>
+        )}
       </div>
     );
   } else if (isTwoCols(type) || isThreeCols(type)) {
@@ -97,11 +102,20 @@ function generateComponent(
 
     // 生成插槽内容
     for (let i = 0; i < n; i++) {
-      slotContent[map[i]] = () => {
-        return cols?.[i]?.children?.map((child, childIndex) => {
-          return generateComponent(child, childIndex, selectedId, handleClick);
-        });
-      };
+      const children = cols?.[i]?.children || [];
+
+      if (children.length > 0) {
+        slotContent[map[i]] = () => {
+          return children.map((child, childIndex) => {
+            return generateComponent(
+              child,
+              childIndex,
+              selectedId,
+              handleClick
+            );
+          });
+        };
+      }
     }
 
     return (
@@ -135,11 +149,20 @@ function generateComponent(
 
     // 生成插槽内容
     for (let i = 0; i < n; i++) {
-      slotContent[map[i]] = () => {
-        return tabs?.[i]?.children?.map((child, childIndex) => {
-          return generateComponent(child, childIndex, selectedId, handleClick);
-        });
-      };
+      const children = tabs?.[i]?.children || [];
+
+      if (children.length > 0) {
+        slotContent[map[i]] = () => {
+          return tabs?.[i]?.children?.map((child, childIndex) => {
+            return generateComponent(
+              child,
+              childIndex,
+              selectedId,
+              handleClick
+            );
+          });
+        };
+      }
     }
 
     return (

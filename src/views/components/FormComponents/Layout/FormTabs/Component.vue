@@ -7,7 +7,7 @@
           <slot name="first"></slot>
         </div>
       </a-tab-pane>
-      <a-tab-pane key="2" tab="tab2">
+      <a-tab-pane key="2" tab="tab2" force-render>
         <div class="tab-content" :data-index="index" :data-tab-index="1">
           <p v-if="!$slots.second" class="col-placeholder">
             拖拽左侧控件至此处
@@ -63,6 +63,7 @@ onMounted(() => {
   .tab-content {
     width: 100%;
     height: 100%;
+    position: relative;
   }
 }
 </style>
