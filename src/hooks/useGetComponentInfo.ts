@@ -1,6 +1,6 @@
 import { useComponentsStore } from "@/stores/components";
+import { findObjById } from "@/utils/util";
 import { storeToRefs } from "pinia";
-import { computed } from "vue";
 
 // 获取组件信息
 function useGetComponentInfo() {
@@ -8,9 +8,7 @@ function useGetComponentInfo() {
   const { componentsList, selectedId } = storeToRefs(componentsStore);
 
   // 选择的组件
-  const selectedComponent = componentsList.value.find(
-    (c) => c.fe_id === selectedId.value
-  );
+  const selectedComponent = findObjById(componentsList.value, selectedId.value);
 
   return {
     componentsList,

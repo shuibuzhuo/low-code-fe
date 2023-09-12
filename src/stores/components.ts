@@ -9,6 +9,8 @@ export type ComponentInfoType = {
   title: string;
   props: ComponentPropsType;
   children?: ComponentInfoType[];
+  cols?: { type: string; children?: ComponentInfoType[] }[];
+  tabs?: { type: string; children?: ComponentInfoType[] }[];
 };
 
 export const useComponentsStore = defineStore("components", () => {
@@ -32,13 +34,17 @@ export const useComponentsStore = defineStore("components", () => {
   function addComponent(
     newComponent: ComponentInfoType,
     index: number,
-    groupIndex: number
+    groupIndex: number,
+    colIndex: number,
+    tabIndex: number
   ) {
     insertComponent(
       { componentsList, selectedId },
       newComponent,
       index,
-      groupIndex
+      groupIndex,
+      colIndex,
+      tabIndex
     );
   }
 

@@ -6,12 +6,13 @@ import { getComponentConfigByType } from "@/views/components/FormComponents";
 
 import Sortable from "sortablejs";
 import { useComponentsStore } from "@/stores/components";
-
-function isLayout(type: string) {
-  if (type === "formGroup") return true;
-
-  return false;
-}
+import {
+  isGroup,
+  isLayout,
+  isTabs,
+  isThreeCols,
+  isTwoCols,
+} from "@/utils/util";
 
 /**
  * 生成组件
@@ -24,7 +25,14 @@ function generateComponent(
   selectedId: Ref<string>,
   handleClick: (e: MouseEvent, fe_id: string) => void
 ) {
-  const { fe_id, type, props, children = [] } = componentInfo;
+  const {
+    fe_id,
+    type,
+    props,
+    children = [],
+    cols = [],
+    tabs = [],
+  } = componentInfo;
 
   const componentConfig = getComponentConfigByType(type);
   if (componentConfig == null) return null;
@@ -46,8 +54,8 @@ function generateComponent(
         <Component {...props}></Component>
       </div>
     );
-  } else {
-    // 布局组件
+  } else if (isGroup(type)) {
+    // 分组组件
     return (
       <div
         key={fe_id}
@@ -67,6 +75,85 @@ function generateComponent(
               handleClick
             );
           })}
+        </Component>
+      </div>
+    );
+  } else if (isTwoCols(type) || isThreeCols(type)) {
+    // 一行两列组件或者一行三列组件
+
+    // 插槽的内容
+    const slotContent = {};
+
+    let n = 0; // 有几列
+    if (isTwoCols(type)) n = 2;
+    if (isThreeCols(type)) n = 3;
+
+    // 【索引】-【插槽名字】的 map
+    const map = {
+      0: "first",
+      1: "second",
+      2: "third",
+    };
+
+    // 生成插槽内容
+    for (let i = 0; i < n; i++) {
+      slotContent[map[i]] = () => {
+        return cols?.[i]?.children?.map((child, childIndex) => {
+          return generateComponent(child, childIndex, selectedId, handleClick);
+        });
+      };
+    }
+
+    return (
+      <div
+        key={fe_id}
+        class={{
+          "component-wrapper": true,
+          group: isLayout(type),
+          selected: fe_id === selectedId.value,
+        }}
+        onClick={(e) => handleClick(e, fe_id)}
+      >
+        <Component {...props} index={index}>
+          {slotContent}
+        </Component>
+      </div>
+    );
+  } else if (isTabs(type)) {
+    // 选项卡组件
+    // 插槽的内容
+    const slotContent = {};
+
+    let n = 0; // 有几个 tab
+    if (isTabs(type)) n = 2;
+
+    // 【索引】-【插槽名字】的 map
+    const map = {
+      0: "first",
+      1: "second",
+    };
+
+    // 生成插槽内容
+    for (let i = 0; i < n; i++) {
+      slotContent[map[i]] = () => {
+        return tabs?.[i]?.children?.map((child, childIndex) => {
+          return generateComponent(child, childIndex, selectedId, handleClick);
+        });
+      };
+    }
+
+    return (
+      <div
+        key={fe_id}
+        class={{
+          "component-wrapper": true,
+          group: isLayout(type),
+          selected: fe_id === selectedId.value,
+        }}
+        onClick={(e) => handleClick(e, fe_id)}
+      >
+        <Component {...props} index={index}>
+          {slotContent}
         </Component>
       </div>
     );
@@ -102,22 +189,6 @@ export default defineComponent({
       return (
         <div class="main-edit-canvas-wrapper">
           {componentsList.value.map((c, index) => {
-            {
-              /* return (
-              <div
-                key={fe_id}
-                class={{
-                  "component-wrapper": true,
-                  group: isLayout(type),
-                  selected: fe_id === selectedId.value,
-                }}
-                onClick={(e) => handleClick(e, fe_id)}
-              >
-                <div>{generateComponent(c, index)}</div>
-              </div>
-            ); */
-            }
-
             return (
               <div>{generateComponent(c, index, selectedId, handleClick)}</div>
             );
@@ -148,7 +219,6 @@ export default defineComponent({
 
 .component-wrapper {
   margin: 12px;
-  padding: 12px;
   border: 1px dashed #fff;
 
   &:first-child {
@@ -166,5 +236,18 @@ export default defineComponent({
 
 .selected {
   border-color: #2d67ef !important;
+}
+
+:deep(.title-wrapper) {
+  padding: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .title {
+    padding: 4px;
+  }
+  .del {
+    padding-bottom: 2px;
+  }
 }
 </style>

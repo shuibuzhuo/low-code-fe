@@ -30,7 +30,7 @@ import {
   componentConfigGroup,
   type ComponentConfigType,
 } from "@/views/components/FormComponents";
-import { nextTick, onMounted } from "vue";
+import { onMounted } from "vue";
 import Sortable from "sortablejs";
 import { useComponentsStore } from "@/stores/components";
 import { v4 as uuid } from "uuid";
@@ -53,9 +53,7 @@ function initSortable() {
           const dragged = e.item;
           const config = JSON.parse(clone.dataset.info!) as ComponentConfigType;
           const { title, type, defaultProps } = config;
-          const { id = "", dataset = {} } = e.to;
-
-          console.log("onEnd e.to", e.to);
+          const { dataset = {} } = e.to;
 
           // 获取父级元素
           const parentElement = dragged.parentNode;
@@ -67,6 +65,16 @@ function initSortable() {
             groupIndex = parseInt(dataset.index);
           }
 
+          let colIndex;
+          if (dataset.colIndex) {
+            colIndex = parseInt(dataset.colIndex);
+          }
+
+          let tabIndex;
+          if (dataset.tabIndex) {
+            tabIndex = parseInt(dataset.tabIndex);
+          }
+
           // 更新 store，增加新组件
           const newComponent = {
             fe_id: uuid(),
@@ -74,7 +82,13 @@ function initSortable() {
             type: type,
             props: defaultProps,
           };
-          componentStore.addComponent(newComponent, e.newIndex!, groupIndex);
+          componentStore.addComponent(
+            newComponent,
+            e.newIndex!,
+            groupIndex,
+            colIndex,
+            tabIndex
+          );
         }
       },
     });

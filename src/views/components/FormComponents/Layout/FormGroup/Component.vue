@@ -1,6 +1,9 @@
 <template>
   <div class="wrapper">
-    <a-typography-paragraph>{{ title }}</a-typography-paragraph>
+    <div class="title-wrapper">
+      <div class="title">{{ title }}</div>
+      <div class="del">删除</div>
+    </div>
     <div class="line"></div>
     <div id="form-group" :data-index="index">
       <p v-if="!$slots.default" class="form-group-placeholder">
@@ -12,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { onMounted, useSlots } from "vue";
 import { FormGroupDefaultProps, type FormGroupPropsType } from "./types";
 import Sortable from "sortablejs";
 
