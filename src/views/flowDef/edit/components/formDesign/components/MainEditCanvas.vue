@@ -218,7 +218,9 @@ export default defineComponent({
         <div class="main-edit-canvas-wrapper">
           {componentsList.value.map((c, index) => {
             return (
-              <div>{generateComponent(c, index, selectedId, handleClick)}</div>
+              <div key={c.fe_id}>
+                {generateComponent(c, index, selectedId, handleClick)}
+              </div>
             );
           })}
         </div>

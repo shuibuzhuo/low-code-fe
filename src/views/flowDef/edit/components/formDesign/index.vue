@@ -57,8 +57,8 @@ import MainEditCanvas from "./components/MainEditCanvas.vue";
 }
 
 .canvas-area {
-  width: 600px;
-  height: 600px;
+  width: 300px;
+  height: 400px;
   position: absolute;
   top: 50%;
   left: 50%;

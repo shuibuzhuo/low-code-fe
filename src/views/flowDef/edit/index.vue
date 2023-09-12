@@ -81,7 +81,7 @@ async function loadFlowDefData() {
 
 onMounted(() => {
   // 请求该流程设计的数据
-  loadFlowDefData();
+  // loadFlowDefData();
 });
 </script>
 
