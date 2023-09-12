@@ -1,3 +1,5 @@
+import lodash from "lodash";
+
 /**
  * 获取 query 参数里的某个参数的值
  * @param name 要获取的参数名
@@ -122,4 +124,30 @@ export function findObjById(arr, id) {
   }
 
   return null;
+}
+
+/**
+ * 将数组中的某个元素进行移动
+ * @param arr 数组
+ * @param oldIndex 移动的元素的 oldIndex
+ * @param newIndex 移动的元素的 newIndex
+ * @returns
+ */
+export function arrayMove(arr, oldIndex, newIndex) {
+  console.log("arrayMove oldIndex", oldIndex);
+  console.log("arrayMove newIndex", newIndex);
+  const copy = lodash.cloneDeep(arr);
+
+  if (oldIndex === newIndex) {
+    // 如果 oldIndex 和 newIndex 相同，无需移动，直接返回原数组
+    return copy;
+  }
+
+  // 获取要移动的元素
+  const movedElement = copy.splice(oldIndex, 1)[0];
+
+  // 在新位置插入移动的元素
+  copy.splice(newIndex, 0, movedElement);
+
+  return copy;
 }

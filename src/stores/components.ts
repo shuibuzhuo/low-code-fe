@@ -2,6 +2,7 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 import type { ComponentPropsType } from "@/views/components/FormComponents";
 import { insertComponent } from "./utils";
+import { arrayMove } from "@/utils/util";
 
 export type ComponentInfoType = {
   fe_id: string;
@@ -53,11 +54,21 @@ export const useComponentsStore = defineStore("components", () => {
     selectedId.value = newId;
   }
 
+  /**
+   * 移动组件
+   * @param oldIndex 移动的组件的 oldIndex
+   * @param newIndex 移动的组件的 newIndex
+   */
+  function moveComponent(oldIndex: number, newIndex: number) {
+    componentsList.value = arrayMove(componentsList.value, oldIndex, newIndex);
+  }
+
   return {
     componentsList,
     selectedId,
     resetComponents,
     addComponent,
     changeSelectedId,
+    moveComponent,
   };
 });

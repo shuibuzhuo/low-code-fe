@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent, onMounted, useSlots, type Ref } from "vue";
+import { defineComponent, onMounted, useSlots, type Ref, ref } from "vue";
 import useGetComponentInfo from "@/hooks/useGetComponentInfo";
 import { type ComponentInfoType } from "@/stores/components";
 import { getComponentConfigByType } from "@/views/components/FormComponents";
@@ -13,7 +13,6 @@ import {
   isThreeCols,
   isTwoCols,
 } from "@/utils/util";
-import Test from "./Test.vue";
 
 /**
  * 生成组件
@@ -34,7 +33,6 @@ function generateComponent(
     cols = [],
     tabs = [],
   } = componentInfo;
-
   const componentConfig = getComponentConfigByType(type);
   if (componentConfig == null) return null;
 
@@ -195,6 +193,12 @@ export default defineComponent({
       Sortable.create(canvasWrapper!, {
         animation: 340,
         group: "componentList",
+        onEnd: function (e) {
+          console.log("e", e);
+          const { oldIndex = 0, newIndex = 0 } = e;
+
+          componentsStore.moveComponent(oldIndex, newIndex);
+        },
       });
     }
 
@@ -209,6 +213,7 @@ export default defineComponent({
 
     return () => {
       const { componentsList, selectedId } = useGetComponentInfo();
+      console.log("render----------------------------");
       return (
         <div class="main-edit-canvas-wrapper">
           {componentsList.value.map((c, index) => {

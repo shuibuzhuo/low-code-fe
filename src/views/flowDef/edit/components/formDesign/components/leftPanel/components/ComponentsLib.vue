@@ -55,6 +55,8 @@ function initSortable() {
           const { title, type, defaultProps } = config;
           const { dataset = {} } = e.to;
 
+          console.log("compLib e", e);
+
           // 获取父级元素
           const parentElement = dragged.parentNode;
           // 删除 DOM 元素
