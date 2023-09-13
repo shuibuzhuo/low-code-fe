@@ -18,14 +18,60 @@
 import { onMounted } from "vue";
 import { FormGroupDefaultProps, type FormGroupPropsType } from "./types";
 import Sortable from "sortablejs";
+import { useComponentsStore } from "@/stores/components";
 
 withDefaults(defineProps<FormGroupPropsType>(), FormGroupDefaultProps);
+
+const componentsStore = useComponentsStore();
 
 function initSortable() {
   const formGroupDom = document.getElementById("form-group");
 
   Sortable.create(formGroupDom!, {
     group: "componentList",
+    onEnd: function (e) {
+      /**
+       * oldIndex 在布局容器里的 index
+       * newIndex 在画布里的 index
+       * item 被拖拽的元素
+       */
+      const { oldIndex = 0, newIndex = 0, item: dragged } = e;
+
+      const { dataset = {} } = e.from;
+
+      // 以下两行代码，为了去掉画布里产生的多余的控件
+      // 获取父级元素
+      const parentElement = dragged.parentNode;
+      // 删除 DOM 元素
+      parentElement!.removeChild(dragged);
+
+      // 分组的索引
+      let groupIndex;
+      if (dataset.groupIndex) {
+        groupIndex = parseInt(dataset.groupIndex);
+      }
+
+      // 列的索引
+      let colIndex;
+      if (dataset.colIndex) {
+        colIndex = parseInt(dataset.colIndex);
+      }
+
+      // 选项卡的索引
+      let tabIndex;
+      if (dataset.tabIndex) {
+        tabIndex = parseInt(dataset.tabIndex);
+      }
+
+      componentsStore.moveComponent({
+        oldIndex,
+        newIndex,
+        groupIndex,
+        colIndex,
+        tabIndex,
+        direction: "out",
+      });
+    },
   });
 }
 

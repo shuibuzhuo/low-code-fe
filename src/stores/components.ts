@@ -62,20 +62,29 @@ export const useComponentsStore = defineStore("components", () => {
    * @param colIndex 嵌套组件中列的位置（用于放入嵌套组件）
    * @param tabIndex 嵌套组件中选项卡的位置（用于放入嵌套组件）
    */
-  function moveComponent(
-    oldIndex: number,
-    newIndex: number,
-    groupIndex: number,
-    colIndex: number,
-    tabIndex: number
-  ) {
+  function moveComponent({
+    oldIndex,
+    newIndex,
+    groupIndex,
+    colIndex,
+    tabIndex,
+    direction,
+  }: {
+    oldIndex: number;
+    newIndex: number;
+    groupIndex: number;
+    colIndex: number;
+    tabIndex: number;
+    direction: "in" | "out";
+  }) {
     componentsList.value = arrayMove(
       componentsList.value,
       oldIndex,
       newIndex,
       groupIndex,
       colIndex,
-      tabIndex
+      tabIndex,
+      direction
     );
   }
 

@@ -35,7 +35,7 @@ import Sortable from "sortablejs";
 import { useComponentsStore } from "@/stores/components";
 import { v4 as uuid } from "uuid";
 
-const componentStore = useComponentsStore();
+const componentsStore = useComponentsStore();
 
 function initSortable() {
   const allGroup = document.querySelectorAll(".lib-components-wrapper");
@@ -54,8 +54,6 @@ function initSortable() {
           const config = JSON.parse(clone.dataset.info!) as ComponentConfigType;
           const { title, type, defaultProps } = config;
           const { dataset = {} } = e.to;
-
-          console.log("compLib e", e);
 
           // 获取父级元素
           const parentElement = dragged.parentNode;
@@ -87,7 +85,7 @@ function initSortable() {
             type: type,
             props: defaultProps,
           };
-          componentStore.addComponent(
+          componentsStore.addComponent(
             newComponent,
             e.newIndex!,
             groupIndex,

@@ -193,63 +193,113 @@ export function arrayMove(
   newIndex: number,
   groupIndex: number,
   colIndex: number,
-  tabIndex: number
+  tabIndex: number,
+  direction: "in" | "out"
 ) {
   console.log("arrayMove oldIndex", oldIndex);
   console.log("arrayMove newIndex", newIndex);
   console.log("arrayMove groupIndex", groupIndex);
   console.log("arrayMove colIndex", colIndex);
   console.log("arrayMove tabIndex", tabIndex);
+
   const copy = lodash.cloneDeep(componentsList);
 
   // 在新位置插入移动的元素
   if (!isEmpty(groupIndex)) {
     // 移动到布局组件里去
 
-    // 先获取出在画布里的那个布局元素，因为下面要 splice
+    // 先获取出在画布里的那个布局元素
     const group = copy[groupIndex];
-    console.log("group", group);
-
-    // 获取要移动的元素
-    const movedElement = copy.splice(oldIndex, 1)[0];
 
     // 获取这个嵌套组件的类型
     const { type } = group;
 
     if (isGroup(type)) {
       // 是分组组件
-      if (!group.children) group.children = [];
-      group.children.splice(newIndex, 0, movedElement);
+
+      if (direction === "in") {
+        // 移入布局组件
+
+        // 获取要移入到布局组件的元素
+        const movedInElement = copy.splice(oldIndex, 1)[0];
+        if (!group.children) group.children = [];
+        group.children.splice(newIndex, 0, movedInElement);
+      } else if (direction === "out") {
+        // 从布局组件移出
+
+        if (group.children == null) return componentsList;
+        // 获取要从布局组件移出的元素
+        const movedOutElement = group.children.splice(oldIndex, 1)[0];
+        copy.splice(newIndex, 0, movedOutElement);
+      }
     } else if (isTwoCols(type) || isThreeCols(type)) {
       // 是一行两列组件或者一行三列组件
 
-      let n = 0; // 有几列
-      if (isTwoCols(type)) n = 2;
-      if (isThreeCols(type)) n = 3;
+      if (direction === "in") {
+        // 移入布局组件
 
-      if (!group.cols) {
-        group.cols = [];
-        for (let i = 0; i < n; i++) {
-          group.cols.push({ type: "col", children: [] });
+        // 获取要移入到布局组件的元素
+        const movedInElement = copy.splice(oldIndex, 1)[0];
+
+        let n = 0; // 有几列
+        if (isTwoCols(type)) n = 2;
+        if (isThreeCols(type)) n = 3;
+
+        if (!group.cols) {
+          group.cols = [];
+          for (let i = 0; i < n; i++) {
+            group.cols.push({ type: "col", children: [] });
+          }
         }
-      }
 
-      const col = group.cols[colIndex];
-      if (!col.children) col.children = [];
-      col.children.splice(newIndex, 0, movedElement);
+        const col = group.cols[colIndex];
+        if (!col.children) col.children = [];
+        col.children.splice(newIndex, 0, movedInElement);
+      } else if (direction === "out") {
+        // 从布局组件移出
+
+        if (group.cols == null) return componentsList;
+        const children = group.cols[colIndex].children;
+        if (children == null) return componentsList;
+
+        // 获取要从布局组件移出的元素
+        const movedOutElement = children.splice(oldIndex, 1)[0];
+
+        copy.splice(newIndex, 0, movedOutElement);
+      }
     } else if (isTabs(type)) {
-      let n = 2;
+      // 是选项卡组件
 
-      if (!group.tabs) {
-        group.tabs = [];
-        for (let i = 0; i < n; i++) {
-          group.tabs.push({ type: "tab-pane", children: [] });
+      if (direction === "in") {
+        // 移入布局组件
+
+        // 获取要移入到布局组件的元素
+        const movedInElement = copy.splice(oldIndex, 1)[0];
+
+        let n = 2;
+
+        if (!group.tabs) {
+          group.tabs = [];
+          for (let i = 0; i < n; i++) {
+            group.tabs.push({ type: "tab-pane", children: [] });
+          }
         }
-      }
 
-      const tabPane = group.tabs[tabIndex];
-      if (!tabPane.children) tabPane.children = [];
-      tabPane.children.splice(newIndex, 0, movedElement);
+        const tabPane = group.tabs[tabIndex];
+        if (!tabPane.children) tabPane.children = [];
+        tabPane.children.splice(newIndex, 0, movedInElement);
+      } else if (direction === "out") {
+        // 从布局组件移出
+
+        if (group.tabs == null) return componentsList;
+        const children = group.tabs[tabIndex].children;
+        if (children == null) return componentsList;
+
+        // 获取要从布局组件移出的元素
+        const movedOutElement = children.splice(oldIndex, 1)[0];
+
+        copy.splice(newIndex, 0, movedOutElement);
+      }
     }
   } else {
     // 普通移动

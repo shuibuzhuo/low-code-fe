@@ -196,7 +196,6 @@ export default defineComponent({
         ghostClass: "sortable-ghost",
         dragClass: "sortable-drag",
         onEnd: function (e) {
-          console.log("canvas e", e);
           const { oldIndex = 0, newIndex = 0 } = e;
 
           const { dataset = {} } = e.to;
@@ -219,13 +218,14 @@ export default defineComponent({
             tabIndex = parseInt(dataset.tabIndex);
           }
 
-          componentsStore.moveComponent(
+          componentsStore.moveComponent({
             oldIndex,
             newIndex,
             groupIndex,
             colIndex,
-            tabIndex
-          );
+            tabIndex,
+            direction: "in",
+          });
         },
       });
     }
