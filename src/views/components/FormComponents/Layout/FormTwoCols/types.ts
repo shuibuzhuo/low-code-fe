@@ -1,9 +1,9 @@
 export type FormTwoColsPropsType = {
   title?: string;
-  index?: number;
+  groupIndex?: number;
 };
 
 export const FormTwoColsDefaultProps: FormTwoColsPropsType = {
   title: "一行两列",
-  index: 0,
+  groupIndex: 0,
 };

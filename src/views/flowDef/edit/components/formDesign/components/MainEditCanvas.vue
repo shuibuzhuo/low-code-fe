@@ -17,7 +17,7 @@ import {
 /**
  * 生成组件
  * @param componentInfo 组件信息
- * @param index 组件在画布里的索引
+ * @param index 组件在画布里的索引，即 groupIndex
  */
 function generateComponent(
   componentInfo: ComponentInfoType,
@@ -66,7 +66,7 @@ function generateComponent(
         onClick={(e) => handleClick(e, fe_id)}
       >
         {children && children.length > 0 ? (
-          <Component {...props} index={index}>
+          <Component {...props} groupIndex={index}>
             {children.map((child, childIndex) => {
               return generateComponent(
                 child,
@@ -77,7 +77,7 @@ function generateComponent(
             })}
           </Component>
         ) : (
-          <Component {...props} index={index}></Component>
+          <Component {...props} groupIndex={index}></Component>
         )}
       </div>
     );
@@ -126,7 +126,7 @@ function generateComponent(
         }}
         onClick={(e) => handleClick(e, fe_id)}
       >
-        <Component {...props} index={index}>
+        <Component {...props} groupIndex={index}>
           {slotContent}
         </Component>
       </div>
@@ -173,7 +173,7 @@ function generateComponent(
         }}
         onClick={(e) => handleClick(e, fe_id)}
       >
-        <Component {...props} index={index}>
+        <Component {...props} groupIndex={index}>
           {slotContent}
         </Component>
       </div>
@@ -193,11 +193,39 @@ export default defineComponent({
       Sortable.create(canvasWrapper!, {
         animation: 340,
         group: "componentList",
+        ghostClass: "sortable-ghost",
+        dragClass: "sortable-drag",
         onEnd: function (e) {
-          console.log("e", e);
+          console.log("canvas e", e);
           const { oldIndex = 0, newIndex = 0 } = e;
 
-          componentsStore.moveComponent(oldIndex, newIndex);
+          const { dataset = {} } = e.to;
+
+          // 分组的索引
+          let groupIndex;
+          if (dataset.groupIndex) {
+            groupIndex = parseInt(dataset.groupIndex);
+          }
+
+          // 列的索引
+          let colIndex;
+          if (dataset.colIndex) {
+            colIndex = parseInt(dataset.colIndex);
+          }
+
+          // 选项卡的索引
+          let tabIndex;
+          if (dataset.tabIndex) {
+            tabIndex = parseInt(dataset.tabIndex);
+          }
+
+          componentsStore.moveComponent(
+            oldIndex,
+            newIndex,
+            groupIndex,
+            colIndex,
+            tabIndex
+          );
         },
       });
     }
@@ -213,7 +241,6 @@ export default defineComponent({
 
     return () => {
       const { componentsList, selectedId } = useGetComponentInfo();
-      console.log("render----------------------------");
       return (
         <div class="main-edit-canvas-wrapper">
           {componentsList.value.map((c, index) => {
@@ -240,7 +267,8 @@ export default defineComponent({
     font-size: 0;
   }
 
-  :deep(.lib-component.sortable-ghost) {
+  :deep(.lib-component.sortable-ghost),
+  :deep(.sortable-chosen.sortable-ghost) {
     width: calc(100% - 24px);
     height: 3px;
     background: rgb(89, 89, 223);

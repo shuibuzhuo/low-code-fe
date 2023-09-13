@@ -5,7 +5,7 @@
       <div class="del">删除</div>
     </div>
     <div class="line"></div>
-    <div id="form-group" :data-index="index">
+    <div id="form-group" :data-group-index="groupIndex">
       <p v-if="!$slots.default" class="form-group-placeholder">
         拖拽左侧控件至此处
       </p>

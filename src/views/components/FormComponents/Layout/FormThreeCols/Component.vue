@@ -3,15 +3,15 @@
     <div class="title-wrapper">{{ title }}</div>
     <div class="line"></div>
     <a-row>
-      <a-col :span="8" :data-index="index" :data-col-index="0">
+      <a-col :span="8" :data-group-index="groupIndex" :data-col-index="0">
         <p v-if="!$slots.first" class="col-placeholder">拖拽左侧控件至此处</p>
         <slot name="first"></slot>
       </a-col>
-      <a-col :span="8" :data-index="index" :data-col-index="1">
+      <a-col :span="8" :data-group-index="groupIndex" :data-col-index="1">
         <p v-if="!$slots.second" class="col-placeholder">拖拽左侧控件至此处</p>
         <slot name="second"></slot>
       </a-col>
-      <a-col :span="8" :data-index="index" :data-col-index="2">
+      <a-col :span="8" :data-group-index="groupIndex" :data-col-index="2">
         <p v-if="!$slots.third" class="col-placeholder">拖拽左侧控件至此处</p>
         <slot name="third"></slot>
       </a-col>

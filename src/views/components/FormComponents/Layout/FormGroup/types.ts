@@ -1,9 +1,9 @@
 export type FormGroupPropsType = {
   title?: string;
-  index?: number;
+  groupIndex?: number;
 };
 
 export const FormGroupDefaultProps: FormGroupPropsType = {
   title: "分组",
-  index: 0,
+  groupIndex: 0,
 };

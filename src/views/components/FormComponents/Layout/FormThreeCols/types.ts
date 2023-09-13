@@ -1,9 +1,9 @@
 export type FormThreeColsPropsType = {
   title?: string;
-  index?: number;
+  groupIndex?: number;
 };
 
 export const FormThreeColsDefaultProps: FormThreeColsPropsType = {
   title: "一行三列",
-  index: 0,
+  groupIndex: 0,
 };

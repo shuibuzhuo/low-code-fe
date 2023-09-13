@@ -62,16 +62,19 @@ function initSortable() {
           // 删除 DOM 元素
           parentElement!.removeChild(dragged);
 
+          // 分组的索引
           let groupIndex;
-          if (dataset.index) {
-            groupIndex = parseInt(dataset.index);
+          if (dataset.groupIndex) {
+            groupIndex = parseInt(dataset.groupIndex);
           }
 
+          // 列的索引
           let colIndex;
           if (dataset.colIndex) {
             colIndex = parseInt(dataset.colIndex);
           }
 
+          // 选项卡的索引
           let tabIndex;
           if (dataset.tabIndex) {
             tabIndex = parseInt(dataset.tabIndex);

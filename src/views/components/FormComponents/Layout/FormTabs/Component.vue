@@ -2,13 +2,21 @@
   <div class="form-tabs-wrapper">
     <a-tabs v-model:activeKey="activeKey">
       <a-tab-pane key="1" tab="tab1">
-        <div class="tab-content" :data-index="index" :data-tab-index="0">
+        <div
+          class="tab-content"
+          :data-group-index="groupIndex"
+          :data-tab-index="0"
+        >
           <p v-if="!$slots.first" class="col-placeholder">拖拽左侧控件至此处</p>
           <slot name="first"></slot>
         </div>
       </a-tab-pane>
       <a-tab-pane key="2" tab="tab2" force-render>
-        <div class="tab-content" :data-index="index" :data-tab-index="1">
+        <div
+          class="tab-content"
+          :data-group-index="groupIndex"
+          :data-tab-index="1"
+        >
           <p v-if="!$slots.second" class="col-placeholder">
             拖拽左侧控件至此处
           </p>

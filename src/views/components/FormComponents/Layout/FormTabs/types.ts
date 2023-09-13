@@ -1,7 +1,7 @@
 export type FormTabsPropsType = {
-  index?: number;
+  groupIndex?: number;
 };
 
 export const FormTabsDefaultProps: FormTabsPropsType = {
-  index: 0,
+  groupIndex: 0,
 };
