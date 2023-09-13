@@ -27,6 +27,7 @@ import {
 } from "./types";
 import Sortable from "sortablejs";
 import { useComponentsStore } from "@/stores/components";
+import { Direction } from "@/stores/types";
 
 withDefaults(defineProps<FormThreeColsPropsType>(), FormThreeColsDefaultProps);
 
@@ -80,7 +81,7 @@ function initSortable() {
           groupIndex,
           colIndex,
           tabIndex,
-          direction: "out",
+          direction: Direction.Out,
         });
       },
     });

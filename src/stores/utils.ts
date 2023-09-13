@@ -2,6 +2,7 @@ import { type Ref } from "vue";
 import type { ComponentInfoType } from "./components";
 import { isEmpty } from "@/utils/util";
 import lodash from "lodash";
+import { Direction, type arrayMoveParams } from "./types";
 
 /**
  * 插入组件
@@ -183,22 +184,25 @@ export function findObjById(arr, id) {
  * @param oldIndex 移动的元素的 oldIndex（用于获取移动的元素）
  * @param newIndex 移动的元素的 newIndex
  * @param groupIndex 嵌套组件在画布的位置（用于放入嵌套组件）
+ * @param toGroupIndex 目的地嵌套组件在画布的位置（用于从一个布局组件拖到另一个布局组件时，拖到的目的地分组的索引）
  * @param colIndex 嵌套组件中列的位置（用于放入嵌套组件）
  * @param tabIndex 嵌套组件中选项卡的位置（用于放入嵌套组件）
- * @returns
  */
-export function arrayMove(
-  componentsList: ComponentInfoType[],
-  oldIndex: number,
-  newIndex: number,
-  groupIndex: number,
-  colIndex: number,
-  tabIndex: number,
-  direction: "in" | "out"
-) {
+export function arrayMove({
+  componentsList,
+  oldIndex,
+  newIndex,
+  groupIndex,
+  toGroupIndex,
+  colIndex,
+  toColIndex,
+  tabIndex,
+  direction,
+}: arrayMoveParams) {
   console.log("arrayMove oldIndex", oldIndex);
   console.log("arrayMove newIndex", newIndex);
   console.log("arrayMove groupIndex", groupIndex);
+  console.log("arrayMove toGroupIndex", toGroupIndex);
   console.log("arrayMove colIndex", colIndex);
   console.log("arrayMove tabIndex", tabIndex);
 
@@ -217,25 +221,40 @@ export function arrayMove(
     if (isGroup(type)) {
       // 是分组组件
 
-      if (direction === "in") {
+      if (direction === Direction.In) {
         // 移入布局组件
 
         // 获取要移入到布局组件的元素
         const movedInElement = copy.splice(oldIndex, 1)[0];
         if (!group.children) group.children = [];
         group.children.splice(newIndex, 0, movedInElement);
-      } else if (direction === "out") {
+      } else if (direction === Direction.Out) {
         // 从布局组件移出
 
         if (group.children == null) return componentsList;
         // 获取要从布局组件移出的元素
         const movedOutElement = group.children.splice(oldIndex, 1)[0];
         copy.splice(newIndex, 0, movedOutElement);
+      } else if (direction === Direction.InToIn) {
+        // 从一个布局组件拖到另一个布局组件
+
+        if (group.children == null) return componentsList;
+        // 获取要从布局组件移出的元素
+        const movedOutElement = group.children.splice(oldIndex, 1)[0];
+
+        if (isEmpty(toGroupIndex)) return componentsList;
+
+        // 目的地布局组件
+        const toGroup = copy[toGroupIndex];
+
+        if (toGroup.children == null) return componentsList;
+
+        toGroup.children.splice(newIndex, 0, movedOutElement);
       }
     } else if (isTwoCols(type) || isThreeCols(type)) {
       // 是一行两列组件或者一行三列组件
 
-      if (direction === "in") {
+      if (direction === Direction.In) {
         // 移入布局组件
 
         // 获取要移入到布局组件的元素
@@ -255,7 +274,7 @@ export function arrayMove(
         const col = group.cols[colIndex];
         if (!col.children) col.children = [];
         col.children.splice(newIndex, 0, movedInElement);
-      } else if (direction === "out") {
+      } else if (direction === Direction.Out) {
         // 从布局组件移出
 
         if (group.cols == null) return componentsList;
@@ -266,11 +285,31 @@ export function arrayMove(
         const movedOutElement = children.splice(oldIndex, 1)[0];
 
         copy.splice(newIndex, 0, movedOutElement);
+      } else if (direction === Direction.InToIn) {
+        // 从一个布局组件拖到另一个布局组件
+
+        if (group.cols == null) return componentsList;
+        const children = group.cols[colIndex].children;
+        if (children == null) return componentsList;
+
+        // 获取要从布局组件移出的元素
+        const movedOutElement = children.splice(oldIndex, 1)[0];
+
+        if (isEmpty(toGroupIndex)) return componentsList;
+
+        // 目的地布局组件
+        const toGroup = copy[toGroupIndex];
+
+        if (toGroup.cols == null) return componentsList;
+        const toChildren = toGroup.cols[toColIndex].children;
+        if (toChildren == null) return componentsList;
+
+        toChildren.splice(newIndex, 0, movedOutElement);
       }
     } else if (isTabs(type)) {
       // 是选项卡组件
 
-      if (direction === "in") {
+      if (direction === Direction.In) {
         // 移入布局组件
 
         // 获取要移入到布局组件的元素
@@ -288,7 +327,7 @@ export function arrayMove(
         const tabPane = group.tabs[tabIndex];
         if (!tabPane.children) tabPane.children = [];
         tabPane.children.splice(newIndex, 0, movedInElement);
-      } else if (direction === "out") {
+      } else if (direction === Direction.Out) {
         // 从布局组件移出
 
         if (group.tabs == null) return componentsList;

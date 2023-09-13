@@ -32,6 +32,7 @@ import { onMounted, ref } from "vue";
 import { FormTabsDefaultProps, type FormTabsPropsType } from "./types";
 import Sortable from "sortablejs";
 import { useComponentsStore } from "@/stores/components";
+import { Direction } from "@/stores/types";
 
 withDefaults(defineProps<FormTabsPropsType>(), FormTabsDefaultProps);
 
@@ -88,7 +89,7 @@ function initSortable() {
           groupIndex,
           colIndex,
           tabIndex,
-          direction: "out",
+          direction: Direction.Out,
         });
       },
     });

@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 import type { ComponentPropsType } from "@/views/components/FormComponents";
 import { insertComponent } from "./utils";
 import { arrayMove } from "./utils";
+import type { Direction, moveComponentParams } from "./types";
 
 export type ComponentInfoType = {
   fe_id: string;
@@ -59,33 +60,15 @@ export const useComponentsStore = defineStore("components", () => {
    * @param oldIndex 移动的组件的 oldIndex
    * @param newIndex 移动的组件的 newIndex
    * @param groupIndex 嵌套组件在画布的位置（用于放入嵌套组件）
+   * @param toGroupIndex 目的地嵌套组件在画布的位置（用于从一个布局组件拖到另一个布局组件时，拖到的目的地分组的索引）
    * @param colIndex 嵌套组件中列的位置（用于放入嵌套组件）
    * @param tabIndex 嵌套组件中选项卡的位置（用于放入嵌套组件）
    */
-  function moveComponent({
-    oldIndex,
-    newIndex,
-    groupIndex,
-    colIndex,
-    tabIndex,
-    direction,
-  }: {
-    oldIndex: number;
-    newIndex: number;
-    groupIndex: number;
-    colIndex: number;
-    tabIndex: number;
-    direction: "in" | "out";
-  }) {
-    componentsList.value = arrayMove(
-      componentsList.value,
-      oldIndex,
-      newIndex,
-      groupIndex,
-      colIndex,
-      tabIndex,
-      direction
-    );
+  function moveComponent(params: moveComponentParams) {
+    componentsList.value = arrayMove({
+      componentsList: componentsList.value,
+      ...params,
+    });
   }
 
   return {

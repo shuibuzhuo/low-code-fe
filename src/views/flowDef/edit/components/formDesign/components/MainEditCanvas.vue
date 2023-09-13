@@ -13,6 +13,7 @@ import {
   isThreeCols,
   isTwoCols,
 } from "@/stores/utils";
+import { Direction } from "@/stores/types";
 
 /**
  * 生成组件
@@ -224,7 +225,7 @@ export default defineComponent({
             groupIndex,
             colIndex,
             tabIndex,
-            direction: "in",
+            direction: Direction.In,
           });
         },
       });

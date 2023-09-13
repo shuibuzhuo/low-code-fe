@@ -20,6 +20,7 @@ import { onMounted } from "vue";
 import { FormTwoColsDefaultProps, type FormTwoColsPropsType } from "./types";
 import Sortable from "sortablejs";
 import { useComponentsStore } from "@/stores/components";
+import { Direction } from "@/stores/types";
 
 withDefaults(defineProps<FormTwoColsPropsType>(), FormTwoColsDefaultProps);
 
@@ -61,6 +62,19 @@ function initSortable() {
           colIndex = parseInt(dataset.colIndex);
         }
 
+        // 从一个布局组件拖到另一个布局组件时，拖到的目的地分组的索引
+        let toGroupIndex;
+        const { dataset: toDataSet = {} } = e.to;
+        if (toDataSet.groupIndex) {
+          toGroupIndex = parseInt(toDataSet.groupIndex);
+        }
+
+        // 目的地分组的索引
+        let toColIndex;
+        if (toDataSet.colIndex) {
+          toColIndex = parseInt(toDataSet.colIndex);
+        }
+
         // 选项卡的索引
         let tabIndex;
         if (dataset.tabIndex) {
@@ -71,9 +85,14 @@ function initSortable() {
           oldIndex,
           newIndex,
           groupIndex,
+          toGroupIndex,
           colIndex,
+          toColIndex,
           tabIndex,
-          direction: "out",
+          direction:
+            e.to.className === "main-edit-canvas-wrapper"
+              ? Direction.Out
+              : Direction.InToIn,
         });
       },
     });
