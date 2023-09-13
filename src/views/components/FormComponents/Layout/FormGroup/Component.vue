@@ -5,7 +5,7 @@
       <div class="del">删除</div>
     </div>
     <div class="line"></div>
-    <div id="form-group" :data-group-index="groupIndex">
+    <div id="form-group" :data-group-index="groupIndex" ref="formGroupRef">
       <p v-if="!$slots.default" class="form-group-placeholder">
         拖拽左侧控件至此处
       </p>
@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { FormGroupDefaultProps, type FormGroupPropsType } from "./types";
 import Sortable from "sortablejs";
 import { useComponentsStore } from "@/stores/components";
@@ -24,10 +24,10 @@ withDefaults(defineProps<FormGroupPropsType>(), FormGroupDefaultProps);
 
 const componentsStore = useComponentsStore();
 
-function initSortable() {
-  const formGroupDom = document.getElementById("form-group");
+const formGroupRef = ref(null);
 
-  Sortable.create(formGroupDom!, {
+function initSortable() {
+  Sortable.create(formGroupRef.value!, {
     group: "componentList",
     onEnd: function (e) {
       /**
