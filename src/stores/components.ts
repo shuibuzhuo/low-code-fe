@@ -2,7 +2,7 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 import type { ComponentPropsType } from "@/views/components/FormComponents";
 import { insertComponent } from "./utils";
-import { arrayMove } from "@/utils/util";
+import { arrayMove } from "./utils";
 
 export type ComponentInfoType = {
   fe_id: string;

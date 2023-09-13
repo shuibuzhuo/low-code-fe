@@ -12,7 +12,7 @@ import {
   isTabs,
   isThreeCols,
   isTwoCols,
-} from "@/utils/util";
+} from "@/stores/utils";
 
 /**
  * 生成组件

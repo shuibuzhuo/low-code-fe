@@ -1,5 +1,5 @@
 import { useComponentsStore } from "@/stores/components";
-import { findObjById } from "@/utils/util";
+import { findObjById } from "@/stores/utils";
 import { storeToRefs } from "pinia";
 
 // 获取组件信息
