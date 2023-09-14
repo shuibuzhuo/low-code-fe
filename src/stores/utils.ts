@@ -186,7 +186,9 @@ export function findObjById(arr, id) {
  * @param groupIndex 嵌套组件在画布的位置（用于放入嵌套组件）
  * @param toGroupIndex 目的地嵌套组件在画布的位置（用于从一个布局组件拖到另一个布局组件时，拖到的目的地分组的索引）
  * @param colIndex 嵌套组件中列的位置（用于放入嵌套组件）
+ * @param toColIndex 目的地嵌套组件的列的位置（用于从一个布局组件拖到另一个布局组件时，拖到的目的地列的索引）
  * @param tabIndex 嵌套组件中选项卡的位置（用于放入嵌套组件）
+ * @param toTabIndex 目的地嵌套组件的 tab 的位置（用于从一个布局组件拖到另一个布局组件时，拖到的目的地 tab 的索引）
  */
 export function arrayMove({
   componentsList,
@@ -197,6 +199,7 @@ export function arrayMove({
   colIndex,
   toColIndex,
   tabIndex,
+  toTabIndex,
   direction,
 }: arrayMoveParams) {
   console.log("arrayMove oldIndex", oldIndex);
@@ -204,7 +207,9 @@ export function arrayMove({
   console.log("arrayMove groupIndex", groupIndex);
   console.log("arrayMove toGroupIndex", toGroupIndex);
   console.log("arrayMove colIndex", colIndex);
+  console.log("arrayMove toColIndex", toColIndex);
   console.log("arrayMove tabIndex", tabIndex);
+  console.log("arrayMove toTabIndex", toTabIndex);
 
   const copy = lodash.cloneDeep(componentsList);
 
@@ -338,6 +343,26 @@ export function arrayMove({
         const movedOutElement = children.splice(oldIndex, 1)[0];
 
         copy.splice(newIndex, 0, movedOutElement);
+      } else if (direction === Direction.InToIn) {
+        // 从一个布局组件拖到另一个布局组件
+
+        if (group.tabs == null) return componentsList;
+        const children = group.tabs[tabIndex].children;
+        if (children == null) return componentsList;
+
+        // 获取要移入到布局组件的元素
+        const movedOutElement = children.splice(oldIndex, 1)[0];
+
+        if (isEmpty(toGroupIndex)) return componentsList;
+
+        // 目的地布局组件
+        const toGroup = copy[toGroupIndex];
+
+        if (toGroup.tabs == null) return componentsList;
+        const toChildren = toGroup.tabs[toTabIndex].children;
+        if (toChildren == null) return componentsList;
+
+        toChildren.splice(newIndex, 0, movedOutElement);
       }
     }
   } else {
