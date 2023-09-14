@@ -26,7 +26,7 @@ import {
   type FormThreeColsPropsType,
 } from "./types";
 import Sortable from "sortablejs";
-import useLayoutCompsDragEnd from "@/hooks/useLayoutCompsDragEnd";
+import useCanvasDragEnd from "@/hooks/useCanvasDragEnd";
 
 withDefaults(defineProps<FormThreeColsPropsType>(), FormThreeColsDefaultProps);
 
@@ -39,7 +39,7 @@ function initSortable() {
     Sortable.create(colDom!, {
       group: "componentList",
       onEnd: function (e) {
-        useLayoutCompsDragEnd(e);
+        useCanvasDragEnd(e);
       },
     });
   });
@@ -75,3 +75,4 @@ onMounted(() => {
   color: #a4a4a4;
 }
 </style>
+@/hooks/useCanvasDragEnd

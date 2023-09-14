@@ -5,7 +5,7 @@ import type Sortable from "sortablejs";
 /**
  * @description layout 组件拖拽结束逻辑 hooks
  */
-function useLayoutCompsDragEnd(e: Sortable.SortableEvent) {
+function useCanvasDragEnd(e: Sortable.SortableEvent) {
   const componentsStore = useComponentsStore();
 
   /**
@@ -15,7 +15,7 @@ function useLayoutCompsDragEnd(e: Sortable.SortableEvent) {
    */
   const { oldIndex = 0, newIndex = 0, item: dragged } = e;
 
-  const { dataset = {} } = e.from;
+  const { dataset = {}, className: fromClassName = "" } = e.from;
 
   // 以下两行代码，为了去掉画布里产生的多余的控件
   // 获取父级元素
@@ -60,6 +60,34 @@ function useLayoutCompsDragEnd(e: Sortable.SortableEvent) {
     toTabIndex = parseInt(toDataSet.tabIndex);
   }
 
+  const canvasClassName = "main-edit-canvas-wrapper";
+  const layoutClassNames = [
+    "form-group",
+    "ant-col-12",
+    "ant-col-8",
+    "tab-content",
+  ];
+
+  let direction: Direction = Direction.In;
+
+  if (
+    layoutClassNames.includes(fromClassName) &&
+    toClassName === canvasClassName
+  ) {
+    // 从布局组件里拖出来
+    direction = Direction.Out;
+  } else if (
+    layoutClassNames.includes(fromClassName) &&
+    layoutClassNames.includes(toClassName)
+  ) {
+    direction = Direction.InToIn;
+  } else if (
+    fromClassName === canvasClassName &&
+    layoutClassNames.includes(toClassName)
+  ) {
+    direction = Direction.OutToIn;
+  }
+
   componentsStore.moveComponent({
     oldIndex,
     newIndex,
@@ -70,11 +98,8 @@ function useLayoutCompsDragEnd(e: Sortable.SortableEvent) {
     tabIndex,
     toTabIndex,
     toClassName,
-    direction:
-      e.to.className === "main-edit-canvas-wrapper"
-        ? Direction.Out
-        : Direction.InToIn,
+    direction,
   });
 }
 
-export default useLayoutCompsDragEnd;
+export default useCanvasDragEnd;

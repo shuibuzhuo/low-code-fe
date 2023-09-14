@@ -18,7 +18,7 @@
 import { onMounted, ref } from "vue";
 import { FormGroupDefaultProps, type FormGroupPropsType } from "./types";
 import Sortable from "sortablejs";
-import useLayoutCompsDragEnd from "@/hooks/useLayoutCompsDragEnd";
+import useCanvasDragEnd from "@/hooks/useCanvasDragEnd";
 
 withDefaults(defineProps<FormGroupPropsType>(), FormGroupDefaultProps);
 
@@ -28,7 +28,7 @@ function initSortable() {
   Sortable.create(formGroupRef.value!, {
     group: "componentList",
     onEnd: function (e) {
-      useLayoutCompsDragEnd(e);
+      useCanvasDragEnd(e);
     },
   });
 }
@@ -58,3 +58,4 @@ onMounted(() => {
   transform: translateX(-50%) translateY(-50%);
 }
 </style>
+@/hooks/useCanvasDragEnd

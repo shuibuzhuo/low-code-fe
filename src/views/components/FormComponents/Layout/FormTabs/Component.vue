@@ -32,7 +32,7 @@ import { onMounted, ref } from "vue";
 import { FormTabsDefaultProps, type FormTabsPropsType } from "./types";
 import Sortable from "sortablejs";
 import { useComponentsStore } from "@/stores/components";
-import useLayoutCompsDragEnd from "@/hooks/useLayoutCompsDragEnd";
+import useCanvasDragEnd from "@/hooks/useCanvasDragEnd";
 
 withDefaults(defineProps<FormTabsPropsType>(), FormTabsDefaultProps);
 
@@ -47,7 +47,7 @@ function initSortable() {
     Sortable.create(tabDom!, {
       group: "componentList",
       onEnd: function (e) {
-        useLayoutCompsDragEnd(e);
+        useCanvasDragEnd(e);
       },
     });
   });
@@ -80,3 +80,4 @@ onMounted(() => {
   }
 }
 </style>
+@/hooks/useCanvasDragEnd

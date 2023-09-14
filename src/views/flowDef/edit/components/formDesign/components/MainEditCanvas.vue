@@ -14,6 +14,7 @@ import {
   isTwoCols,
 } from "@/stores/utils";
 import { Direction } from "@/stores/types";
+import useCanvasDragEnd from "@/hooks/useCanvasDragEnd";
 
 /**
  * 生成组件
@@ -197,36 +198,7 @@ export default defineComponent({
         ghostClass: "sortable-ghost",
         dragClass: "sortable-drag",
         onEnd: function (e) {
-          const { oldIndex = 0, newIndex = 0 } = e;
-
-          const { dataset = {} } = e.to;
-
-          // 分组的索引
-          let groupIndex;
-          if (dataset.groupIndex) {
-            groupIndex = parseInt(dataset.groupIndex);
-          }
-
-          // 列的索引
-          let colIndex;
-          if (dataset.colIndex) {
-            colIndex = parseInt(dataset.colIndex);
-          }
-
-          // 选项卡的索引
-          let tabIndex;
-          if (dataset.tabIndex) {
-            tabIndex = parseInt(dataset.tabIndex);
-          }
-
-          componentsStore.moveComponent({
-            oldIndex,
-            newIndex,
-            groupIndex,
-            colIndex,
-            tabIndex,
-            direction: Direction.In,
-          });
+          useCanvasDragEnd(e);
         },
       });
     }

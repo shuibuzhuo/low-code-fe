@@ -257,13 +257,13 @@ export function arrayMove({
         // 获取要从布局组件移出的元素
         const movedOutElement = group.children?.splice(oldIndex, 1)[0];
 
-        useInToIn({
+        useToLayout({
           toGroupIndex,
           componentsList,
           copy,
           toClassName,
           newIndex,
-          movedOutElement,
+          movedElement: movedOutElement,
           toColIndex,
           toTabIndex,
         });
@@ -293,13 +293,13 @@ export function arrayMove({
         // 获取要从布局组件移出的元素
         const movedOutElement = children?.splice(oldIndex, 1)[0];
 
-        useInToIn({
+        useToLayout({
           toGroupIndex,
           componentsList,
           copy,
           toClassName,
           newIndex,
-          movedOutElement,
+          movedElement: movedOutElement,
           toColIndex,
           toTabIndex,
         });
@@ -330,42 +330,61 @@ export function arrayMove({
         // 获取要移入到布局组件的元素
         const movedOutElement = children?.splice(oldIndex, 1)[0];
 
-        useInToIn({
+        useToLayout({
           toGroupIndex,
           componentsList,
           copy,
           toClassName,
           newIndex,
-          movedOutElement,
+          movedElement: movedOutElement,
           toColIndex,
           toTabIndex,
         });
       }
     }
   } else {
-    // 普通移动
-    if (oldIndex === newIndex) {
-      // 如果 oldIndex 和 newIndex 相同，无需移动，直接返回原数组
-      return copy;
+    if (!isEmpty(toGroupIndex)) {
+      // 从画布拖入布局组件
+
+      // 获取要移入到布局组件的元素
+      const movedInElement = copy.splice(oldIndex, 1)[0];
+
+      useToLayout({
+        toGroupIndex,
+        componentsList,
+        copy,
+        toClassName,
+        newIndex,
+        movedElement: movedInElement,
+        toColIndex,
+        toTabIndex,
+      });
+    } else {
+      // 普通移动
+      if (oldIndex === newIndex) {
+        // 如果 oldIndex 和 newIndex 相同，无需移动，直接返回原数组
+        return copy;
+      }
+      // 获取要移动的元素
+      const movedElement = copy.splice(oldIndex, 1)[0];
+      copy.splice(newIndex, 0, movedElement);
     }
-    // 获取要移动的元素
-    const movedElement = copy.splice(oldIndex, 1)[0];
-    copy.splice(newIndex, 0, movedElement);
   }
 
   return copy;
 }
 
 /**
- * 从一个布局组件拖到另一个布局组件
+ * 从一个布局组件或者画布中拖到一个布局组件
+ * @param movedElement 此次移动到布局组件的组件
  */
-function useInToIn({
+function useToLayout({
   toGroupIndex,
   componentsList,
   copy,
   toClassName,
   newIndex,
-  movedOutElement,
+  movedElement,
   toColIndex,
   toTabIndex,
 }) {
@@ -377,14 +396,14 @@ function useInToIn({
 
   if (isToGroup(toClassName)) {
     // 拖到另一个分组组件
-    toGroup?.children?.splice(newIndex, 0, movedOutElement!);
+    toGroup?.children?.splice(newIndex, 0, movedElement!);
   } else if (isToTwoCols(toClassName) || isToThreeCols(toClassName)) {
     // 拖到另一个一行 n 列组件
     const toCol = toGroup?.cols?.[toColIndex];
-    toCol?.children?.splice(newIndex, 0, movedOutElement!);
+    toCol?.children?.splice(newIndex, 0, movedElement!);
   } else if (isToTabs(toClassName)) {
     // 拖到另一个选项卡组件
     const toTabPane = toGroup.tabs?.[toTabIndex];
-    toTabPane?.children?.splice(newIndex, 0, movedOutElement!);
+    toTabPane?.children?.splice(newIndex, 0, movedElement!);
   }
 }

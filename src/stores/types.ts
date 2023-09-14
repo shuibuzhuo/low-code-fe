@@ -2,14 +2,16 @@ import type { ComponentInfoType } from "./components";
 
 /**
  * 拖动的方向
- * In 拖入到布局组件
+ * In 从组件库拖入布局组件
  * Out 从布局组件拖出来
  * InToIn 从一个布局组件拖到另一个布局组件
+ * OutToIn 从画布拖入布局组件
  */
 export enum Direction {
   In,
   Out,
   InToIn,
+  OutToIn,
 }
 
 export interface moveComponentParams {
