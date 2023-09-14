@@ -63,8 +63,8 @@ function useCanvasDragEnd(e: Sortable.SortableEvent) {
   const canvasClassName = "main-edit-canvas-wrapper";
   const layoutClassNames = [
     "form-group",
-    "ant-col-12",
-    "ant-col-8",
+    "ant-col ant-col-12",
+    "ant-col ant-col-8",
     "tab-content",
   ];
 
@@ -87,6 +87,19 @@ function useCanvasDragEnd(e: Sortable.SortableEvent) {
   ) {
     direction = Direction.OutToIn;
   }
+
+  console.log("useCanvasDragEnd e", e);
+  console.log("useCanvasDragEnd oldIndex", oldIndex);
+  console.log("useCanvasDragEnd newIndex", newIndex);
+  console.log("useCanvasDragEnd groupIndex", groupIndex);
+  console.log("useCanvasDragEnd toGroupIndex", toGroupIndex);
+  console.log("useCanvasDragEnd colIndex", colIndex);
+  console.log("useCanvasDragEnd toColIndex", toColIndex);
+  console.log("useCanvasDragEnd tabIndex", tabIndex);
+  console.log("useCanvasDragEnd toTabIndex", toTabIndex);
+  console.log("useCanvasDragEnd fromClassName", fromClassName);
+  console.log("useCanvasDragEnd toClassName", toClassName);
+  console.log("useCanvasDragEnd direction", direction);
 
   componentsStore.moveComponent({
     oldIndex,

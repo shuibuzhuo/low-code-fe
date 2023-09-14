@@ -215,15 +215,6 @@ export function arrayMove({
   toClassName,
   direction,
 }: arrayMoveParams) {
-  console.log("arrayMove oldIndex", oldIndex);
-  console.log("arrayMove newIndex", newIndex);
-  console.log("arrayMove groupIndex", groupIndex);
-  console.log("arrayMove toGroupIndex", toGroupIndex);
-  console.log("arrayMove colIndex", colIndex);
-  console.log("arrayMove toColIndex", toColIndex);
-  console.log("arrayMove tabIndex", tabIndex);
-  console.log("arrayMove toTabIndex", toTabIndex);
-
   const copy = lodash.cloneDeep(componentsList);
 
   // 在新位置插入移动的元素
