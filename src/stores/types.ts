@@ -29,6 +29,8 @@ export interface moveComponentParams {
   tabIndex: number;
   /** 目的地嵌套组件的 tab 的位置（用于从一个布局组件拖到另一个布局组件时，拖到的目的地 tab 的索引） */
   toTabIndex: number;
+  /** 嵌套组件之间拖拽时，目的地嵌套组件的 className */
+  toClassName: string;
   /** 拖动的方向 */
   direction: Direction;
 }

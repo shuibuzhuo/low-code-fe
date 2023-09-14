@@ -5,7 +5,7 @@
       <div class="del">删除</div>
     </div>
     <div class="line"></div>
-    <div id="form-group" :data-group-index="groupIndex" ref="formGroupRef">
+    <div class="form-group" :data-group-index="groupIndex" ref="formGroupRef">
       <p v-if="!$slots.default" class="form-group-placeholder">
         拖拽左侧控件至此处
       </p>
@@ -45,7 +45,7 @@ onMounted(() => {
   background-color: #e4e4e4;
 }
 
-#form-group {
+.form-group {
   min-height: 58px;
   color: #a4a4a4;
   position: relative;

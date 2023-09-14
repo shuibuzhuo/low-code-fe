@@ -32,8 +32,12 @@ import {
 } from "@/views/components/FormComponents";
 import { onMounted } from "vue";
 import Sortable from "sortablejs";
-import { useComponentsStore } from "@/stores/components";
+import {
+  useComponentsStore,
+  type ComponentInfoType,
+} from "@/stores/components";
 import { v4 as uuid } from "uuid";
+import { isGroup, isTabs, isThreeCols, isTwoCols } from "@/stores/utils";
 
 const componentsStore = useComponentsStore();
 
@@ -79,12 +83,42 @@ function initSortable() {
           }
 
           // 更新 store，增加新组件
-          const newComponent = {
+          const newComponent: ComponentInfoType = {
             fe_id: uuid(),
             title: title,
             type: type,
             props: defaultProps,
           };
+
+          // 是分组组件
+          if (isGroup(type)) {
+            newComponent.children = [];
+          }
+
+          // 是一行两列组件或者一行三列组件
+          if (isTwoCols(type) || isThreeCols(type)) {
+            let n = 0; // 有几列
+            if (isTwoCols(type)) n = 2;
+            if (isThreeCols(type)) n = 3;
+
+            newComponent.cols = [];
+            for (let i = 0; i < n; i++) {
+              newComponent.cols.push({ type: "col", children: [] });
+            }
+          }
+
+          // 是选项卡组件
+          if (isTabs(type)) {
+            let n = 2; // 暂时是 2 个 tab，预留后面扩展
+
+            if (newComponent.tabs == null) {
+              newComponent.tabs = [];
+              for (let i = 0; i < n; i++) {
+                newComponent.tabs.push({ type: "tab-pane", children: [] });
+              }
+            }
+          }
+
           componentsStore.addComponent(
             newComponent,
             e.newIndex!,

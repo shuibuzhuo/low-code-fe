@@ -65,6 +65,7 @@ export const useComponentsStore = defineStore("components", () => {
    * @param toColIndex 目的地嵌套组件的列的位置（用于从一个布局组件拖到另一个布局组件时，拖到的目的地列的索引）
    * @param tabIndex 嵌套组件中选项卡的位置（用于放入嵌套组件）
    * @param toTabIndex 目的地嵌套组件的 tab 的位置（用于从一个布局组件拖到另一个布局组件时，拖到的目的地 tab 的索引）
+   * @param toClassName 嵌套组件之间拖拽时，目的地嵌套组件的 className
    */
   function moveComponent(params: moveComponentParams) {
     componentsList.value = arrayMove({

@@ -31,7 +31,7 @@ function useLayoutCompsDragEnd(e: Sortable.SortableEvent) {
 
   // 从一个布局组件拖到另一个布局组件时，拖到的目的地分组的索引
   let toGroupIndex;
-  const { dataset: toDataSet = {} } = e.to;
+  const { dataset: toDataSet = {}, className: toClassName = "" } = e.to;
   if (toDataSet.groupIndex) {
     toGroupIndex = parseInt(toDataSet.groupIndex);
   }
@@ -69,6 +69,7 @@ function useLayoutCompsDragEnd(e: Sortable.SortableEvent) {
     toColIndex,
     tabIndex,
     toTabIndex,
+    toClassName,
     direction:
       e.to.className === "main-edit-canvas-wrapper"
         ? Direction.Out
