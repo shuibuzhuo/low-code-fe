@@ -13,7 +13,6 @@ import {
   isThreeCols,
   isTwoCols,
 } from "@/stores/utils";
-import { Direction } from "@/stores/types";
 import useCanvasDragEnd from "@/hooks/useCanvasDragEnd";
 
 /**
