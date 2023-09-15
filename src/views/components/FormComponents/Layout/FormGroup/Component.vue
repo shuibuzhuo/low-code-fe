@@ -58,4 +58,3 @@ onMounted(() => {
   transform: translateX(-50%) translateY(-50%);
 }
 </style>
-@/hooks/useCanvasDragEnd

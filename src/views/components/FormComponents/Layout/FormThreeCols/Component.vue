@@ -75,4 +75,3 @@ onMounted(() => {
   color: #a4a4a4;
 }
 </style>
-@/hooks/useCanvasDragEnd

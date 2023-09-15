@@ -80,4 +80,3 @@ onMounted(() => {
   }
 }
 </style>
-@/hooks/useCanvasDragEnd
